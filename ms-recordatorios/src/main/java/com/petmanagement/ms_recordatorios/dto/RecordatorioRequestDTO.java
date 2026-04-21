@@ -1,7 +1,6 @@
 package com.petmanagement.ms_recordatorios.dto;
 
 import java.time.LocalDateTime;
-
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;

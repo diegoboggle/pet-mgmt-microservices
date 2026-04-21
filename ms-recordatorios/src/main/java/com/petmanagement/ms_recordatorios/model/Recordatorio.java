@@ -19,7 +19,6 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-
 public class Recordatorio {
 
     @Id

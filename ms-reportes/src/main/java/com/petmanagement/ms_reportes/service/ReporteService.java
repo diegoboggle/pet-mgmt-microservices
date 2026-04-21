@@ -5,7 +5,6 @@ import com.petmanagement.ms_reportes.repository.ReporteRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -14,8 +13,7 @@ import java.util.List;
 @Slf4j
 public class ReporteService {
 
-    // Variable en minúscula para evitar los errores de llamado estático
-    private final ReporteRepository reporteRepository;
+     private final ReporteRepository reporteRepository;
 
     public Reporte crearReporte(String tipoReporte, String solicitante, String contenido) {
         log.info("Generando reporte de tipo {} para {}", tipoReporte, solicitante);
@@ -24,7 +22,7 @@ public class ReporteService {
                 .tipoReporte(tipoReporte)
                 .solicitante(solicitante)
                 .contenido(contenido)
-                .fechaGeneracion(LocalDateTime.now()) // Se asigna automáticamente la fecha actual
+                .fechaGeneracion(LocalDateTime.now())
                 .build();
 
         return reporteRepository.save(nuevoReporte);

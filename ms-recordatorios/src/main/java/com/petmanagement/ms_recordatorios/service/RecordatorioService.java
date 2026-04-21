@@ -10,7 +10,6 @@ import com.petmanagement.ms_recordatorios.repository.RecordatorioRepository;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-
 public class RecordatorioService {
     private final RecordatorioRepository recordatorioRepository;
 
