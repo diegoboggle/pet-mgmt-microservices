@@ -1,13 +1,13 @@
-package com.example.ms_citas;
+package com.example.msvacunas;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class MsCitasApplication {
+public class MsVacunasApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(MsCitasApplication.class, args);
+		SpringApplication.run(MsVacunasApplication.class, args);
 	}
 
 }

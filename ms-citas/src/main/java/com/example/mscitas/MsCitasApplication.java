@@ -1,13 +1,13 @@
-package com.example.ms_historial_medico;
+package com.example.mscitas;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class MsHistorialMedicoApplication {
+public class MsCitasApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(MsHistorialMedicoApplication.class, args);
+		SpringApplication.run(MsCitasApplication.class, args);
 	}
 
 }

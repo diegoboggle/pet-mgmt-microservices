@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.example</groupId>
-	<artifactId>ms_historial-medico</artifactId>
+	<artifactId>ms-historial-medico</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name/>
 	<description/>
