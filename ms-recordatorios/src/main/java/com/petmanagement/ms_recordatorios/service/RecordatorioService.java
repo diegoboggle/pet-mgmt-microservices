@@ -4,19 +4,19 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import com.petmanagement.ms_recordatorios.model.Recordatorios;
+import com.petmanagement.ms_recordatorios.model.Recordatorio;
 import com.petmanagement.ms_recordatorios.repository.RecordatorioRepository;
 
 @Service
 @Slf4j
 @RequiredArgsConstructor
 
-public class RecordatoriosService {
+public class RecordatorioService {
     private final RecordatorioRepository recordatorioRepository;
 
-    public Recordatorios crearRecordatorio(String destinatario, String mensaje, java.time.LocalDateTime fechaRecordatorio) {
+    public Recordatorio crearRecordatorio(String destinatario, String mensaje, java.time.LocalDateTime fechaRecordatorio) {
         log.info("Creando recordatorio para {}", destinatario);
-        Recordatorios nuevoRecordatorio = Recordatorios.builder()
+        Recordatorio nuevoRecordatorio = Recordatorio.builder()
                 .destinatario(destinatario)
                 .mensaje(mensaje)
                 .fechaRecordatorio(fechaRecordatorio)
@@ -24,10 +24,10 @@ public class RecordatoriosService {
                 .build();
         return recordatorioRepository.save(nuevoRecordatorio);}
 
-        public List<Recordatorios> obtenerTodos(){
+        public List<Recordatorio> obtenerTodos(){
             return recordatorioRepository.findAll();
         }
-        public List<Recordatorios> obtenerPorDestinatario(String destinatario){
+        public List<Recordatorio> obtenerPorDestinatario(String destinatario){
             return recordatorioRepository.findByDestinatario(destinatario);
         }
     }

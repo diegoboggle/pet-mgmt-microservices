@@ -20,7 +20,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @Builder
 
-public class Recordatorios {
+public class Recordatorio {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

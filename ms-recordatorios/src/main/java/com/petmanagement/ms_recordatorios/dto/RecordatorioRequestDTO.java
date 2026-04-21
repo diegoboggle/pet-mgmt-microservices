@@ -9,7 +9,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class RecordatoriosRequestDTO {
+public class RecordatorioRequestDTO {
 
     @NotBlank(message = "El destinatario es obligatorio y no puede estar vacío")
     private String destinatario;

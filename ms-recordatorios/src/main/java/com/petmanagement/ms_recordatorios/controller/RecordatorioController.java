@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.petmanagement.ms_recordatorios.dto.RecordatoriosRequestDTO;
-import com.petmanagement.ms_recordatorios.model.Recordatorios;
-import com.petmanagement.ms_recordatorios.service.RecordatoriosService;
+import com.petmanagement.ms_recordatorios.dto.RecordatorioRequestDTO;
+import com.petmanagement.ms_recordatorios.model.Recordatorio;
+import com.petmanagement.ms_recordatorios.service.RecordatorioService;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -24,10 +24,10 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class RecordatorioController {
 
-    private final RecordatoriosService recordatoriosService;
+    private final RecordatorioService recordatoriosService;
 
     @PostMapping
-    public ResponseEntity<Recordatorios> crear(@Valid @RequestBody RecordatoriosRequestDTO request) {
+    public ResponseEntity<Recordatorio> crear(@Valid @RequestBody RecordatorioRequestDTO request) {
         log.info("POST /api/recordatorios - Recibida petición para: {}", request.getDestinatario());
 
         return ResponseEntity.ok(recordatoriosService.crearRecordatorio(
@@ -37,7 +37,7 @@ public class RecordatorioController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Recordatorios>> obtenerRecordatorios(
+    public ResponseEntity<List<Recordatorio>> obtenerRecordatorios(
             @RequestParam(required = false) String destinatario) {
 
         if (destinatario != null && !destinatario.trim().isEmpty()) {
