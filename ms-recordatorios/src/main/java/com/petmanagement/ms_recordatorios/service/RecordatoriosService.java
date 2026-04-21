@@ -1,11 +1,10 @@
 package com.petmanagement.ms_recordatorios.service;
 
 import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import com.petmanagement.ms_recordatorios.model.Recordatorio;
+import com.petmanagement.ms_recordatorios.model.Recordatorios;
 import com.petmanagement.ms_recordatorios.repository.RecordatorioRepository;
 
 @Service
@@ -15,20 +14,20 @@ import com.petmanagement.ms_recordatorios.repository.RecordatorioRepository;
 public class RecordatoriosService {
     private final RecordatorioRepository recordatorioRepository;
 
-    public Recordatorio crearRecordatorio(Recordatorio recordatorio) {
+    public Recordatorios crearRecordatorio(String destinatario, String mensaje, java.time.LocalDateTime fechaRecordatorio) {
         log.info("Creando recordatorio para {}", destinatario);
-        Recordatorio recordatorio = Recordatorio.builder()
+        Recordatorios nuevoRecordatorio = Recordatorios.builder()
                 .destinatario(destinatario)
                 .mensaje(mensaje)
                 .fechaRecordatorio(fechaRecordatorio)
                 .completado(false)
                 .build();
-        return recordatorioRepository.save(recordatorio);}
+        return recordatorioRepository.save(nuevoRecordatorio);}
 
-        public List<Recordatorio> obtenerTodos(){
+        public List<Recordatorios> obtenerTodos(){
             return recordatorioRepository.findAll();
         }
-        public List<Recordatorio> obtenerPorDestinatario(String destinatario){
+        public List<Recordatorios> obtenerPorDestinatario(String destinatario){
             return recordatorioRepository.findByDestinatario(destinatario);
         }
     }
