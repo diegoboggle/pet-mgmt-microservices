@@ -13,8 +13,6 @@ import java.util.List;
 @Slf4j
 public class NotificacionService {
 
-    // Nota cómo la clase es PascalCase (NotificacionRepository)
-    // pero la variable se mantiene en camelCase (notificacionRepository)
     private final NotificacionRepository notificacionRepository;
 
     public Notificacion crearNotificacion(String destinatario, String mensaje, String tipo) {
