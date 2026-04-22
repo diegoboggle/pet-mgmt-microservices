@@ -8,4 +8,11 @@ import java.util.*;
 
 public class UsuarioRepository {
 
+    list<Usuario> usuarios = new ArrayList<>();
+    
+    public List<Usuario> findAll() {
+        return usuarios;
+    }
+
+
 }

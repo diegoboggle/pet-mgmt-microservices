@@ -23,22 +23,27 @@ public class Usuario {
     @GeneratedValue(strategy = GenerationType.IDENTITY) // autoincremental.
     private Long id;
 
-    @NotBlank(message = "El nombre no puede estar vacío.") //validacion nombre.
     @Column(nullable = false) // validacion base de datos valores nulos.
     private String nombre;
 
-    @NotBlank(message = "El apellido no puede estar vacío.") //validacion apellido.
     @Column(nullable = false) // validacion base de datos valores nulos.
     private String apellido;
 
-    @Email(message = "El correo debe ser válido.") //validacion email.
-    @NotBlank(message = "El correo no puede estar vacío.") //validacion email.
     @Column(nullable = false, unique = true) // validacion base de datos valores únicos y nulos.
     private String email;
 
-    @Size(min = 9, max = 15, message = "El teléfono debe contener entre 9 y 15 caracteres.") //validacion telefono.
+    @Column(length = 15)
     private String telefono;
 
     private String direccion;
+
+
+    //ms-auth necesitará de estos datos
+
+    @Column(nullable = false)
+    private String password; 
+
+    @Column(nullable = false)
+    private String rol;
 
 }
