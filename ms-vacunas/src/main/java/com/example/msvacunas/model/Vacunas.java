@@ -2,8 +2,7 @@ package com.example.msvacunas.model;
 
 import java.time.LocalDate;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "vacunas")
 @Data
 @NoArgsConstructor
-@allArgsConstructor
+@AllArgsConstructor
 public class Vacunas {
 
     @Id
@@ -30,7 +29,7 @@ public class Vacunas {
     private String marca;
 
     @Column(nullable = false)
-    private int numeroDosis;
+    private Integer numeroDosis;
 
     @Column(nullable = false)
     private LocalDate fechaAplicacion;
