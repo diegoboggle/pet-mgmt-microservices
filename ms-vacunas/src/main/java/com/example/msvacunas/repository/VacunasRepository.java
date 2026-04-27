@@ -1,8 +1,8 @@
-package main.java.com.example.msvacunas.repository;
+package com.example.msvacunas.repository;
 
 import com.example.msvacunas.model.Vacunas;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.repository;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
