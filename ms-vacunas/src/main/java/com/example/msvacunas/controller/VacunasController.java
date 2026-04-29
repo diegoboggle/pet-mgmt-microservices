@@ -25,6 +25,17 @@ public class VacunasController {
         }
         return ResponseEntity.ok(vacunas);
     }
+
+    // GET /api/v1/vacunas/{id} — Busca una vacuna por ID
+    @GetMapping("/{id}")
+    public ResponseEntity<Vacunas> buscar(@PathVariable Long id){
+        try {
+            Vacunas vacuna = vacunasService.findById(id);
+            return ResponseEntity.ok(vacuna);
+        } catch (Exception e){
+            return ResponseEntity.notFound().build();
+    }
+}
     
     // GET /api/v1/vacunas/mascota/{mascotaId} — Lista todas las vacunas de una mascota
     @GetMapping("/mascota/{mascotaId}")
