@@ -1,5 +1,6 @@
 package com.example.msvacunas.controller;
 
+import com.example.msvacunas.dto.VacunaRequestDTO;
 import com.example.msvacunas.model.Vacunas;
 import com.example.msvacunas.service.VacunasService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,29 +49,21 @@ public class VacunasController {
     }
 
     // POST /api/v1/vacunas — Registra una vacuna nueva
-    @PostMapping 
-    public ResponseEntity<Vacunas> guardar(@RequestBody Vacunas vacuna){
-        Vacunas vacunaGuardada = vacunasService.save(vacuna);
+    // Ahora recibe VacunaRequestDTO en vez de la entidad Vacunas directamente
+    @PostMapping
+    public ResponseEntity<Vacunas> guardar(@RequestBody VacunaRequestDTO dto) {
+        Vacunas vacunaGuardada = vacunasService.save(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(vacunaGuardada);
     }
 
     // PUT /api/v1/vacunas/{id} — Actualiza una vacuna existente
     @PutMapping("/{id}")
-    public ResponseEntity<Vacunas> actualizar(@PathVariable Long id, @RequestBody Vacunas vacuna){
+    public ResponseEntity<Vacunas> actualizar(@PathVariable Long id, @RequestBody VacunaRequestDTO dto) {
         try {
             Vacunas vacunaExistente = vacunasService.findById(id);
-            vacunaExistente.setMascotaId(vacuna.getMascotaId());
-            vacunaExistente.setNombreVacuna(vacuna.getNombreVacuna());
-            vacunaExistente.setMarca(vacuna.getMarca());
-            vacunaExistente.setNumeroDosis(vacuna.getNumeroDosis());
-            vacunaExistente.setFechaAplicacion(vacuna.getFechaAplicacion());
-            vacunaExistente.setFechaProximoRefuerzo(vacuna.getFechaProximoRefuerzo());
-            vacunaExistente.setVeterinarioAplicador(vacuna.getVeterinarioAplicador());
-            vacunaExistente.setObservaciones(vacuna.getObservaciones());
-
-            vacunasService.save(vacunaExistente);
-            return ResponseEntity.ok(vacunaExistente);
-        } catch (Exception e){
+            Vacunas actualizada = vacunasService.update(vacunaExistente, dto);
+            return ResponseEntity.ok(actualizada);
+        } catch (Exception e) {
             return ResponseEntity.notFound().build();
         }
     }
