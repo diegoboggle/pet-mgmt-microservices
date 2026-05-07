@@ -18,27 +18,28 @@ public class Citas {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+ 
+    // ID de la mascota — no usamos @ManyToOne porque cada microservicio tiene su propia BD
     @Column(nullable = false)
     private Long mascotaId;
-
+ 
+    // ID de la veterinaria — igual, solo guardamos el ID
     @Column(nullable = false)
     private Long veterinariaId;
-
+ 
     @Column(nullable = false)
     private LocalDate fechaCita;
-
+ 
     @Column(nullable = false)
     private LocalTime horaCita;
-
+ 
     @Column(nullable = false)
     private String motivoCita;
-
-    //Estado de la cita: PENDIENTE, CONFIRMADA, CANCELADA, COMPLETADA
-    // Usamos String simple para no complicar con enum por ahora
+ 
+    // Estado: PENDIENTE, CONFIRMADA, CANCELADA, COMPLETADA
     @Column(nullable = false)
     private String estado;
-
+ 
     @Column(nullable = true)
     private String observaciones;
 }
