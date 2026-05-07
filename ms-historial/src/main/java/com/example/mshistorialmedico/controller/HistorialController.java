@@ -1,5 +1,6 @@
 package com.example.mshistorialmedico.controller;
 
+import com.example.mshistorialmedico.dto.HistorialRequestDTO;
 import com.example.mshistorialmedico.model.HistorialMedico;
 import com.example.mshistorialmedico.service.HistorialService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,29 +47,21 @@ public class HistorialController {
         return ResponseEntity.ok(historial);
     }
 
-    // POST /api/v1/historial - registra una nueva consulta medica
+    // POST /api/v1/historial — Registra una nueva consulta médica
+    // Recibe HistorialRequestDTO en vez de la entidad directamente
     @PostMapping
-    public ResponseEntity<HistorialMedico> guardar(@RequestBody HistorialMedico historialMedico){
-        HistorialMedico nuevo = historialService.save(historialMedico);
-        return ResponseEntity.status(HttpStatus.CREATED).body(nuevo); 
+    public ResponseEntity<HistorialMedico> guardar(@RequestBody HistorialRequestDTO dto) {
+        HistorialMedico nuevo = historialService.save(dto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(nuevo);
     }
 
-    // PUT /api/v1/historial/{id} - Actualiza un registro existente
+    // PUT /api/v1/historial/{id} — Actualiza un registro existente
     @PutMapping("/{id}")
-    public ResponseEntity<HistorialMedico> actualizar(@PathVariable Long id, @RequestBody HistorialMedico historialMedico){
+    public ResponseEntity<HistorialMedico> actualizar(@PathVariable Long id, @RequestBody HistorialRequestDTO dto) {
         try {
             HistorialMedico existente = historialService.findById(id);
-            existente.setMascotaId(historialMedico.getMascotaId());
-            existente.setFechaConsulta(historialMedico.getFechaConsulta());
-            existente.setMotivoConsulta(historialMedico.getMotivoConsulta());
-            existente.setDiagnostico(historialMedico.getDiagnostico());
-            existente.setSintomas(historialMedico.getSintomas());
-            existente.setTratamiento(historialMedico.getTratamiento());
-            existente.setMedicamentosRecetados(historialMedico.getMedicamentosRecetados());
-            existente.setVeterinarioResponsable(historialMedico.getVeterinarioResponsable());
-            existente.setObservaciones(historialMedico.getObservaciones());
-            historialService.save(existente);
-            return ResponseEntity.ok(existente);
+            HistorialMedico actualizado = historialService.update(existente, dto);
+            return ResponseEntity.ok(actualizado);
         } catch (Exception e) {
             return ResponseEntity.notFound().build();
         }
