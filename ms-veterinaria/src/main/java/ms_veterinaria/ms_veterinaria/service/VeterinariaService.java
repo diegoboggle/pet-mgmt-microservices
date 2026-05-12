@@ -5,6 +5,7 @@ import ms_veterinaria.ms_veterinaria.dto.VeterinariaDTO;
 import ms_veterinaria.ms_veterinaria.model.Veterinaria;
 import ms_veterinaria.ms_veterinaria.repository.VeterinariaRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -18,10 +19,11 @@ public class VeterinariaService {
         this.veterinarioRepository = veterinarioRepository;
     }
 
+    @Transactional
     public Veterinaria registrarVeterinario(VeterinariaDTO dto) {
         log.info("Iniciando registro de veterinario: {} {}", dto.getNombre(), dto.getApellido());
 
-        if (veterinarioRepository.findByEmail(dto.getEmail()).isPresent()) {
+        if (veterinarioRepository.existsByEmail(dto.getEmail())) {
             log.warn("Registro fallido: El email {} ya existe", dto.getEmail());
             throw new IllegalArgumentException("El email ya está registrado");
         }
@@ -38,6 +40,7 @@ public class VeterinariaService {
         return guardado;
     }
 
+    @Transactional(readOnly = true)
     public List<Veterinaria> listarVeterinarios() {
         log.info("Consultando el directorio de veterinarios");
         return veterinarioRepository.findAll();
