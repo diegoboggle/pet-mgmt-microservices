@@ -13,10 +13,10 @@ public class Mascota {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String nombre;
     private String especie; 
     private String raza;
     private Integer edad;
-    private Long usuarioId; 
+    private Long usuarioId; // Relación con Usuario (ID del propietario)
+     
 }

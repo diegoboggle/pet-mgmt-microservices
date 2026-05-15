@@ -4,15 +4,21 @@ import ms_usuario.usuario.dto.UsuarioDTO;
 import ms_usuario.usuario.model.Usuario;
 import ms_usuario.usuario.service.UsuarioService;
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.http.HttpStatus;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 
+@Slf4j
 @RestController
 @RequestMapping("/api/v1/usuarios")
 public class UsuarioController {
@@ -24,16 +30,11 @@ public class UsuarioController {
     }
 
     @PostMapping
-    public ResponseEntity<?> crearUsuario(@Valid @RequestBody UsuarioDTO dto){ 
-        try{
-            Usuario usuarioCreado = usuarioService.crearUsuario(dto);
-            return ResponseEntity.status(HttpStatus.CREATED).body(usuarioCreado);
-        } catch (IllegalArgumentException e){
-            // Captura el error de "El email ya se encuentra registrado"
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-        } catch (Exception e){
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error interno al crear el usuario");
-        }
+    public ResponseEntity<Usuario> crear(@Valid @RequestBody UsuarioDTO dto){
+        log.info("Petición recibida para registro de usuario con email:{}", dto.getEmail());
+        Usuario usuarioCreado = usuarioService.crearUsuario(dto);
+        log.info("Usuario creado exitosamente con ID: {}", usuarioCreado.getId());
+        return ResponseEntity.status(HttpStatus.CREATED).body(usuarioCreado);
     }
 
     @GetMapping

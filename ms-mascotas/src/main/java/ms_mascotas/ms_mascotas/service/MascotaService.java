@@ -29,4 +29,8 @@ public class MascotaService {
     public List<Mascota> listarTodas() {
         return mascotaRepository.findAll();
     }
+    public List<Mascota> listarMascotaID(Long MascotaID){
+        return mascotaRepository.findByUsuarioId(MascotaID);
+    }
+    
 }
