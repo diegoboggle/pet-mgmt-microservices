@@ -4,8 +4,8 @@ import com.petmanagement.ms_reportes.model.Reporte;
 import com.petmanagement.ms_reportes.repository.ReporteRepository;
 import java.time.LocalDateTime;
 import java.util.List;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,24 +13,27 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.server.ResponseStatusException;
 
 @Service
-@RequiredArgsConstructor
-@Slf4j
 @Transactional
 public class ReporteService {
 
+    private static final Logger log = LoggerFactory.getLogger(ReporteService.class);
+
     private final ReporteRepository reporteRepository;
+
+    public ReporteService(ReporteRepository reporteRepository) {
+        this.reporteRepository = reporteRepository;
+    }
 
     public Reporte crearReporte(String tipoReporte, String solicitante, String contenido) {
         String tipoReporteNormalizado = normalizar(tipoReporte);
         String solicitanteNormalizado = normalizar(solicitante);
         log.info("Generando reporte de tipo {} para {}", tipoReporteNormalizado, solicitanteNormalizado);
 
-        Reporte nuevoReporte = Reporte.builder()
-                .tipoReporte(tipoReporteNormalizado)
-                .solicitante(solicitanteNormalizado)
-                .contenido(normalizar(contenido))
-                .fechaGeneracion(LocalDateTime.now())
-                .build();
+        Reporte nuevoReporte = new Reporte();
+        nuevoReporte.setTipoReporte(tipoReporteNormalizado);
+        nuevoReporte.setSolicitante(solicitanteNormalizado);
+        nuevoReporte.setContenido(normalizar(contenido));
+        nuevoReporte.setFechaGeneracion(LocalDateTime.now());
 
         return reporteRepository.save(nuevoReporte);
     }

@@ -4,33 +4,36 @@ import com.petmanagement.ms_notificaciones.model.Notificacion;
 import com.petmanagement.ms_notificaciones.repository.NotificacionRepository;
 import java.time.LocalDateTime;
 import java.util.List;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import org.springframework.web.server.ResponseStatusException;
 
 @Service
-@RequiredArgsConstructor
-@Slf4j
 @Transactional
 public class NotificacionService {
 
+    private static final Logger log = LoggerFactory.getLogger(NotificacionService.class);
+
     private final NotificacionRepository notificacionRepository;
+
+    public NotificacionService(NotificacionRepository notificacionRepository) {
+        this.notificacionRepository = notificacionRepository;
+    }
 
     public Notificacion crearNotificacion(String destinatario, String mensaje, String tipo) {
         String destinatarioNormalizado = normalizar(destinatario);
         log.info("Creando notificación para: {}", destinatarioNormalizado);
 
-        Notificacion notificacion = Notificacion.builder()
-                .destinatario(destinatarioNormalizado)
-                .mensaje(normalizar(mensaje))
-                .tipo(normalizar(tipo))
-                .fechaEnvio(LocalDateTime.now())
-                .enviada(true)
-                .build();
+        Notificacion notificacion = new Notificacion();
+        notificacion.setDestinatario(destinatarioNormalizado);
+        notificacion.setMensaje(normalizar(mensaje));
+        notificacion.setTipo(normalizar(tipo));
+        notificacion.setFechaEnvio(LocalDateTime.now());
+        notificacion.setEnviada(true);
 
         return notificacionRepository.save(notificacion);
     }

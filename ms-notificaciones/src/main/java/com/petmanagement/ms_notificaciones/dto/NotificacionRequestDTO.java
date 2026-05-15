@@ -2,11 +2,7 @@ package com.petmanagement.ms_notificaciones.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
-import lombok.Getter;
-import lombok.Setter;
 
-@Getter
-@Setter
 public class NotificacionRequestDTO {
 
     @NotBlank(message = "El destinatario es obligatorio y no puede estar vacío")
@@ -20,4 +16,28 @@ public class NotificacionRequestDTO {
     @NotBlank(message = "El tipo es obligatorio y no puede estar vacío")
     @Size(max = 80, message = "El tipo no puede superar los 80 caracteres")
     private String tipo;
+
+    public String getDestinatario() {
+        return destinatario;
+    }
+
+    public void setDestinatario(String destinatario) {
+        this.destinatario = destinatario;
+    }
+
+    public String getMensaje() {
+        return mensaje;
+    }
+
+    public void setMensaje(String mensaje) {
+        this.mensaje = mensaje;
+    }
+
+    public String getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
+    }
 }

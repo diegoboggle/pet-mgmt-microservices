@@ -17,16 +17,20 @@ import com.petmanagement.ms_recordatorios.dto.RecordatorioRequestDTO;
 import com.petmanagement.ms_recordatorios.model.Recordatorio;
 import com.petmanagement.ms_recordatorios.service.RecordatorioService;
 import jakarta.validation.Valid;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @RestController
 @RequestMapping("/api/recordatorios")
-@RequiredArgsConstructor
-@Slf4j
 public class RecordatorioController {
 
+    private static final Logger log = LoggerFactory.getLogger(RecordatorioController.class);
+
     private final RecordatorioService recordatorioService;
+
+    public RecordatorioController(RecordatorioService recordatorioService) {
+        this.recordatorioService = recordatorioService;
+    }
 
     @PostMapping
     public ResponseEntity<Recordatorio> crear(@Valid @RequestBody RecordatorioRequestDTO request) {

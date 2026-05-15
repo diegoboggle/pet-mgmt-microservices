@@ -17,16 +17,20 @@ import com.petmanagement.ms_notificaciones.dto.NotificacionRequestDTO;
 import com.petmanagement.ms_notificaciones.model.Notificacion;
 import com.petmanagement.ms_notificaciones.service.NotificacionService;
 import jakarta.validation.Valid;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @RestController
 @RequestMapping("/api/notificaciones")
-@RequiredArgsConstructor
-@Slf4j
 public class NotificacionController {
 
+    private static final Logger log = LoggerFactory.getLogger(NotificacionController.class);
+
     private final NotificacionService notificacionService;
+
+    public NotificacionController(NotificacionService notificacionService) {
+        this.notificacionService = notificacionService;
+    }
 
     @PostMapping
     public ResponseEntity<Notificacion> crear(@Valid @RequestBody NotificacionRequestDTO request) {

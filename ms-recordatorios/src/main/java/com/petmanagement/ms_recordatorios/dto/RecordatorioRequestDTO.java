@@ -5,11 +5,7 @@ import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.Getter;
-import lombok.Setter;
 
-@Getter
-@Setter
 public class RecordatorioRequestDTO {
 
     @NotBlank(message = "El destinatario es obligatorio y no puede estar vacío")
@@ -23,4 +19,28 @@ public class RecordatorioRequestDTO {
     @NotNull(message = "La fecha del recordatorio es obligatoria")
     @FutureOrPresent(message = "La fecha del recordatorio debe ser actual o futura")
     private LocalDateTime fechaRecordatorio;
+
+    public String getDestinatario() {
+        return destinatario;
+    }
+
+    public void setDestinatario(String destinatario) {
+        this.destinatario = destinatario;
+    }
+
+    public String getMensaje() {
+        return mensaje;
+    }
+
+    public void setMensaje(String mensaje) {
+        this.mensaje = mensaje;
+    }
+
+    public LocalDateTime getFechaRecordatorio() {
+        return fechaRecordatorio;
+    }
+
+    public void setFechaRecordatorio(LocalDateTime fechaRecordatorio) {
+        this.fechaRecordatorio = fechaRecordatorio;
+    }
 }

@@ -7,20 +7,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
 
 @Entity
-@Getter
-@Setter
-@ToString
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
 @Table(name = "reportes")
 public class Reporte {
 
@@ -39,4 +27,44 @@ public class Reporte {
 
     @Column(nullable = false, updatable = false)
     private LocalDateTime fechaGeneracion;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getTipoReporte() {
+        return tipoReporte;
+    }
+
+    public void setTipoReporte(String tipoReporte) {
+        this.tipoReporte = tipoReporte;
+    }
+
+    public String getSolicitante() {
+        return solicitante;
+    }
+
+    public void setSolicitante(String solicitante) {
+        this.solicitante = solicitante;
+    }
+
+    public String getContenido() {
+        return contenido;
+    }
+
+    public void setContenido(String contenido) {
+        this.contenido = contenido;
+    }
+
+    public LocalDateTime getFechaGeneracion() {
+        return fechaGeneracion;
+    }
+
+    public void setFechaGeneracion(LocalDateTime fechaGeneracion) {
+        this.fechaGeneracion = fechaGeneracion;
+    }
 }

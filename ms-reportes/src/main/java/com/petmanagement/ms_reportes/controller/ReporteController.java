@@ -16,16 +16,20 @@ import com.petmanagement.ms_reportes.dto.ReporteRequestDTO;
 import com.petmanagement.ms_reportes.model.Reporte;
 import com.petmanagement.ms_reportes.service.ReporteService;
 import jakarta.validation.Valid;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @RestController
 @RequestMapping("/api/reportes")
-@RequiredArgsConstructor
-@Slf4j
 public class ReporteController {
 
+    private static final Logger log = LoggerFactory.getLogger(ReporteController.class);
+
     private final ReporteService reporteService;
+
+    public ReporteController(ReporteService reporteService) {
+        this.reporteService = reporteService;
+    }
 
     @PostMapping
     public ResponseEntity<Reporte> crear(@Valid @RequestBody ReporteRequestDTO request) {

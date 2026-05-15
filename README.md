@@ -24,7 +24,7 @@ The project is built leveraging a robust, enterprise-grade technology stack:
 - **Core Framework:** Spring Boot (v4.0.5)
 - **Persistence Layer:** Spring Data JPA, Hibernate
 - **Database:** PostgreSQL
-- **Additional Libraries:** Lombok, Spring Boot Actuator, Jakarta Validation
+- **Additional Libraries:** Spring Boot Actuator, Jakarta Validation
 - **Build Tool & Dependency Management:** Maven
 - **Local development:** PostgreSQL directo con DBeaver
 
