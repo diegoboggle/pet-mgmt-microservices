@@ -8,7 +8,7 @@ import com.petmanagement.ms_notificaciones.model.Notificacion;
 @Repository
 public interface NotificacionRepository extends JpaRepository<Notificacion, Long> {
 
-    List<Notificacion> findByDestinatario(String destinatario);
+    List<Notificacion> findByDestinatarioIgnoreCase(String destinatario);
 
     List<Notificacion> findByEnviada(boolean enviada);
 }

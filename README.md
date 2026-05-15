@@ -58,12 +58,18 @@ The default credentials configured in the `application.properties` files are:
 
 The services support environment variables for connection configuration:
 
+- `SERVER_PORT` (service default: `8081` notifications, `8082` reminders, `8083` reports)
 - `DB_HOST` (default: `localhost`)
 - `DB_PORT` (default: `5432`)
 - `DB_USERNAME` (default: `postgres`)
 - `DB_PASSWORD` (default: `admin123`)
+- `DDL_AUTO` (default: `update`)
+- `JPA_SHOW_SQL` (default: `false`)
+- `HIBERNATE_FORMAT_SQL` (default: `true`)
 
 *Note: For local development, `spring.jpa.hibernate.ddl-auto=update` is enabled; en un entorno de producción, es mejor usar migraciones explícitas y no depender de auto-actualizaciones de esquema.*
+
+The automated tests run against in-memory H2 databases, so they do not require a local PostgreSQL instance.
 
 ---
 
@@ -99,6 +105,9 @@ Each microservice exposes a RESTful API. Below are the primary endpoints for eac
 
 - `POST /` : Creates a new notification. Payload requires `destinatario`, `mensaje`, and `tipo`.
 - `GET /` : Retrieves all notifications (supports filtering by `destinatario` via query parameter).
+- `GET /{id}` : Retrieves a notification by id.
+- `PATCH /{id}/estado?enviada=true|false` : Updates the sent status.
+- `DELETE /{id}` : Deletes a notification by id.
 
 ---
 
@@ -106,13 +115,18 @@ Each microservice exposes a RESTful API. Below are the primary endpoints for eac
 
 - `POST /` : Schedules a new reminder. Payload requires `destinatario`, `mensaje`, and `fechaRecordatorio`.
 - `GET /` : Retrieves all reminders (supports filtering by `destinatario` via query parameter).
+- `GET /{id}` : Retrieves a reminder by id.
+- `PATCH /{id}/estado?completado=true|false` : Updates the completion status.
+- `DELETE /{id}` : Deletes a reminder by id.
 
 ---
 
 ### ms-reportes (`/api/reportes`)
 
 - `POST /` : Generates a new report. Payload requires `tipoReporte`, `solicitante`, and `contenido`.
-- `GET /` : Retrieves all reports (supports filtering by `tipoReporte` via query parameter).
+- `GET /` : Retrieves all reports (supports filtering by `tipoReporte` or `solicitante` via query parameter).
+- `GET /{id}` : Retrieves a report by id.
+- `DELETE /{id}` : Deletes a report by id.
 
 ---
 

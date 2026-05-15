@@ -8,7 +8,7 @@ import com.petmanagement.ms_reportes.model.Reporte;
 @Repository
 public interface ReporteRepository extends JpaRepository<Reporte, Long> {
 
-    List<Reporte> findByTipoReporte(String tipoReporte);
+    List<Reporte> findByTipoReporteIgnoreCase(String tipoReporte);
 
-    List<Reporte> findBySolicitante(String solicitante);
+    List<Reporte> findBySolicitanteIgnoreCase(String solicitante);
 }

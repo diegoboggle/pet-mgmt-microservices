@@ -3,7 +3,10 @@ package com.petmanagement.ms_reportes.controller;
 import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,11 +39,26 @@ public class ReporteController {
 
     @GetMapping
     public ResponseEntity<List<Reporte>> obtenerReportes(
-            @RequestParam(required = false) String tipoReporte) {
+            @RequestParam(required = false) String tipoReporte,
+            @RequestParam(required = false) String solicitante) {
 
-        if (tipoReporte != null && !tipoReporte.trim().isEmpty()) {
+        if (StringUtils.hasText(tipoReporte)) {
             return ResponseEntity.ok(reporteService.obtenerPorTipo(tipoReporte));
         }
+        if (StringUtils.hasText(solicitante)) {
+            return ResponseEntity.ok(reporteService.obtenerPorSolicitante(solicitante));
+        }
         return ResponseEntity.ok(reporteService.obtenerTodos());
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Reporte> obtenerPorId(@PathVariable Long id) {
+        return ResponseEntity.ok(reporteService.obtenerPorId(id));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> eliminar(@PathVariable Long id) {
+        reporteService.eliminar(id);
+        return ResponseEntity.noContent().build();
     }
 }

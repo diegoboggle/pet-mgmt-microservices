@@ -8,7 +8,7 @@ import com.petmanagement.ms_recordatorios.model.Recordatorio;
 @Repository
 public interface RecordatorioRepository extends JpaRepository<Recordatorio, Long> {
 
-    List<Recordatorio> findByDestinatario(String destinatario);
+    List<Recordatorio> findByDestinatarioIgnoreCase(String destinatario);
 
     List<Recordatorio> findByCompletado(boolean completado);
 }
