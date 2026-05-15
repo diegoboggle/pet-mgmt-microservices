@@ -1,6 +1,7 @@
 package com.petmanagement.ms_reportes.controller;
 
 import java.util.List;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -27,11 +28,10 @@ public class ReporteController {
     public ResponseEntity<Reporte> crear(@Valid @RequestBody ReporteRequestDTO request) {
         log.info("POST /api/reportes - Recibida petición para reporte: {}", request.getTipoReporte());
 
-        return ResponseEntity.ok(reporteService.crearReporte(
+        return ResponseEntity.status(HttpStatus.CREATED).body(reporteService.crearReporte(
                 request.getTipoReporte(),
                 request.getSolicitante(),
-                request.getContenido()
-        ));
+                request.getContenido()));
     }
 
     @GetMapping

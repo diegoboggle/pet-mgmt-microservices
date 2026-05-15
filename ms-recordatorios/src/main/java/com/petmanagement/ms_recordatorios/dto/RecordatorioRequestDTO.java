@@ -1,6 +1,7 @@
 package com.petmanagement.ms_recordatorios.dto;
 
 import java.time.LocalDateTime;
+import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
@@ -17,5 +18,6 @@ public class RecordatorioRequestDTO {
     private String mensaje;
 
     @NotNull(message = "La fecha del recordatorio es obligatoria")
+    @FutureOrPresent(message = "La fecha del recordatorio debe ser actual o futura")
     private LocalDateTime fechaRecordatorio;
 }

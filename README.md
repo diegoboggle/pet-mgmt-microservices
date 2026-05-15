@@ -22,11 +22,11 @@ The project is built leveraging a robust, enterprise-grade technology stack:
 
 - **Language:** Java 21
 - **Core Framework:** Spring Boot (v4.0.5)
-- **Cloud & Resilience:** Spring Cloud (v2025.1.1), Resilience4j
 - **Persistence Layer:** Spring Data JPA, Hibernate
 - **Database:** PostgreSQL
 - **Additional Libraries:** Lombok, Spring Boot Actuator, Jakarta Validation
 - **Build Tool & Dependency Management:** Maven
+- **Local development:** PostgreSQL directo con DBeaver
 
 ---
 
@@ -35,8 +35,9 @@ The project is built leveraging a robust, enterprise-grade technology stack:
 To build and run this project in your local environment, ensure you have the following installed:
 
 - [Java Development Kit (JDK) 21](https://jdk.java.net/21/)
-- [Apache Maven](https://maven.apache.org/) (or use the provided Maven Wrapper)
-- A running instance of [PostgreSQL](https://www.postgresql.org/) (default port: 5432)
+- [Apache Maven](https://maven.apache.org/) or use the provided Maven Wrapper
+- A running PostgreSQL server on `localhost:5432`
+- [DBeaver](https://dbeaver.io/) or any SQL client to inspect las bases de datos
 
 ---
 
@@ -44,7 +45,7 @@ To build and run this project in your local environment, ensure you have the fol
 
 ### 1. Database Configuration
 
-Each microservice requires its own isolated PostgreSQL database. You must provision the following databases on your local server before bootstrapping the applications:
+Each microservice uses its own PostgreSQL database. Create the following databases on your local server before bootstrapping the applications:
 
 - `notificacionesdb`
 - `recordatoriosdb`
@@ -53,9 +54,16 @@ Each microservice requires its own isolated PostgreSQL database. You must provis
 The default credentials configured in the `application.properties` files are:
 
 - **Username:** `postgres`
-- **Password:** `admin123` *(Can be overridden via the `DB_PASSWORD` environment variable)*
+- **Password:** `admin123`
 
-*Note: The schemas will be automatically generated upon initial startup due to the `spring.jpa.hibernate.ddl-auto=update` property.*
+The services support environment variables for connection configuration:
+
+- `DB_HOST` (default: `localhost`)
+- `DB_PORT` (default: `5432`)
+- `DB_USERNAME` (default: `postgres`)
+- `DB_PASSWORD` (default: `admin123`)
+
+*Note: For local development, `spring.jpa.hibernate.ddl-auto=update` is enabled; en un entorno de producción, es mejor usar migraciones explícitas y no depender de auto-actualizaciones de esquema.*
 
 ---
 

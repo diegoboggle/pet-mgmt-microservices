@@ -1,6 +1,7 @@
 package com.petmanagement.ms_notificaciones.controller;
 
 import java.util.List;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -27,7 +28,7 @@ public class NotificacionController {
     public ResponseEntity<Notificacion> crear(@Valid @RequestBody NotificacionRequestDTO request) {
         log.info("POST /api/notificaciones - Recibida petición para: {}", request.getDestinatario());
 
-        return ResponseEntity.ok(notificacionService.crearNotificacion(
+        return ResponseEntity.status(HttpStatus.CREATED).body(notificacionService.crearNotificacion(
                 request.getDestinatario(),
                 request.getMensaje(),
                 request.getTipo()));

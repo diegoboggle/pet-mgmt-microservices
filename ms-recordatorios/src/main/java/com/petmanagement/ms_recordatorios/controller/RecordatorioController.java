@@ -1,6 +1,7 @@
 package com.petmanagement.ms_recordatorios.controller;
 
 import java.util.List;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -27,7 +28,7 @@ public class RecordatorioController {
     public ResponseEntity<Recordatorio> crear(@Valid @RequestBody RecordatorioRequestDTO request) {
         log.info("POST /api/recordatorios - Recibida petición para: {}", request.getDestinatario());
 
-        return ResponseEntity.ok(recordatoriosService.crearRecordatorio(
+        return ResponseEntity.status(HttpStatus.CREATED).body(recordatoriosService.crearRecordatorio(
                 request.getDestinatario(),
                 request.getMensaje(),
                 request.getFechaRecordatorio()));
