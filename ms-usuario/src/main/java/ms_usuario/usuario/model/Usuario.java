@@ -27,10 +27,10 @@ public class Usuario {
     private String nombre;
 
     @Column(nullable = false) 
-    private String apellido; // Ojo: en la versión anterior tenías "apellidos" en plural, asegúrate de mantenerlo igual en tu DTO
+    private String apellido; 
 
     @Column(nullable = false, unique = true) 
-    private String email; // Ojo: antes lo llamábamos "correo", está perfecto usar "email" pero hay que actualizar el DTO
+    private String email; 
 
     @Column(length = 15)
     private String telefono;

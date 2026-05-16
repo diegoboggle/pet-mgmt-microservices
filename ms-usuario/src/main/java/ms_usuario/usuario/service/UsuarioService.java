@@ -4,7 +4,6 @@ import ms_usuario.usuario.dto.UsuarioDTO;
 import ms_usuario.usuario.model.Usuario;
 import ms_usuario.usuario.repository.UsuarioRepository;
 import org.springframework.stereotype.Service;
-
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
@@ -23,7 +22,7 @@ public class UsuarioService {
     public Usuario crearUsuario(UsuarioDTO dto) {
         // Validamos que el email no esté registrado
         if (usuarioRepository.findByEmail(dto.getEmail()).isPresent()) {
-            throw new IllegalArgumentException("El email ya se encuentra registrado");
+            throw new RuntimeException("El email ya se encuentra registrado");
         }
 
         Usuario usuario = new Usuario();
@@ -48,7 +47,7 @@ public class UsuarioService {
         return usuarioRepository.findByEmail(email)
         .orElseThrow(() -> {
             log.warn("Intento de búsqueda fallido. No existe el email: {}", email);
-            return new RuntimeException("Usuario encontrado");
+            return new RuntimeException("Usuario no encontrado");
         });
     }
 }

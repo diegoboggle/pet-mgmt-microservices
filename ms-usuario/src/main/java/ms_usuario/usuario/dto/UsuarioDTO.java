@@ -1,7 +1,10 @@
 package ms_usuario.usuario.dto;
 
+
 import jakarta.validation.constraints.*;
 import lombok.Data;
+
+
 
 @Data
 public class UsuarioDTO {

@@ -1,6 +1,6 @@
 package ms_auth.ms_auth.client;
 
-import ms_auth.ms_auth.dto.UsuarioAuthDTO;
+import ms_auth.ms_auth.dto.AuthRequest;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -11,5 +11,5 @@ public interface UsuarioClient {
 
     // Este método irá a golpear el endpoint de ms-usuario
     @GetMapping("/buscar")
-    UsuarioAuthDTO buscarPorEmail(@RequestParam("email") String email);
+    AuthRequest buscarPorEmail(@RequestParam("email") String email);
 }

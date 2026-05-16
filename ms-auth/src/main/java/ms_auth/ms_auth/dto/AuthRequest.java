@@ -6,10 +6,13 @@ import lombok.Data;
 
 @Data
 public class AuthRequest {
+    
     @NotBlank(message = "El email no puede estar vacío")
     @Email(message = "Formato de email inválido")
     private String email;
 
     @NotBlank(message = "La contraseña no puede estar vacía")
     private String password;
+
+    private String rol;
 }

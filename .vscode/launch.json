@@ -1,0 +1,35 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-UsuarioApplication<usuario>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "ms_usuario.usuario.UsuarioApplication",
+            "projectName": "usuario",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env",
+            "vmArgs": " -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=63924 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Dspring.jmx.enabled=true -Djava.rmi.server.hostname=localhost -Dspring.application.admin.enabled=true -Dspring.boot.project.name=usuario"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-EurekaApplication<ms-eureka>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "cl.duoc.eureka.EurekaApplication",
+            "projectName": "ms-eureka",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-MsAuthApplication<ms_auth>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "ms_auth.ms_auth.MsAuthApplication",
+            "projectName": "ms_auth",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}
