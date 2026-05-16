@@ -15,7 +15,12 @@ public class MascotaService {
         this.mascotaRepository = mascotaRepository;
     }
 
+
     public Mascota registrarMascota(MascotaDTO dto) {
+        if (dto.getUsuarioId()== null){
+            throw new RuntimeException("El ID del propietario es obligario");
+        }
+
         Mascota mascota = new Mascota();
         mascota.setNombre(dto.getNombre());
         mascota.setEspecie(dto.getEspecie());
@@ -26,11 +31,17 @@ public class MascotaService {
         return mascotaRepository.save(mascota);
     }
 
-    public List<Mascota> listarTodas() {
+    public List<Mascota> listarTodos() {
         return mascotaRepository.findAll();
     }
-    public List<Mascota> listarMascotaID(Long MascotaID){
-        return mascotaRepository.findByUsuarioId(MascotaID);
+
+    public List<Mascota> listarPorUsuarioId(Long usuarioId) {
+        return mascotaRepository.findByUsuarioId(usuarioId);
+    }
+
+    public Mascota buscarPorId(Long id) {
+        return mascotaRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Mascota no encontrada con el ID: " + id));
     }
     
 }

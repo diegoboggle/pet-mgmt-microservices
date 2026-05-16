@@ -14,16 +14,16 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 
 
+
+
 @RestController
 @RequestMapping("/api/v1/mascotas")
 public class MascotaController {
 
-    private final MascotaRepository mascotaRepository;
     private final MascotaService mascotaService;
 
     public MascotaController(MascotaService mascotaService, MascotaRepository mascotaRepository) {
         this.mascotaService = mascotaService;
-        this.mascotaRepository = mascotaRepository;
     }
 
     @PostMapping
@@ -32,14 +32,18 @@ public class MascotaController {
     }
 
     @GetMapping
-    public List<Mascota> listar() {
-        return mascotaService.listarTodas();
+    public ResponseEntity<List<Mascota>> listar() {
+        return ResponseEntity.ok(mascotaService.listarTodos());
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Mascota> buscarPorId(@PathVariable Long id){
-        return mascotaRepository.findById(id)
-        .map(ResponseEntity::ok)
-        .orElse(ResponseEntity.notFound().build());
-    }    
+        return ResponseEntity.ok(mascotaService.buscarPorId(id));
+    }
+
+    @GetMapping("/usuario/{usuarioId}")
+    public ResponseEntity<List<Mascota>> buscarPorUsuario(@PathVariable Long usuarioId) {
+        return ResponseEntity.ok(mascotaService.listarPorUsuarioId(usuarioId));
+    }
+    
 }
