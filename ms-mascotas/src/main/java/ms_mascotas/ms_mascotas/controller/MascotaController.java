@@ -36,7 +36,7 @@ public class MascotaController {
         return ResponseEntity.ok(mascotaService.listarTodos());
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/buscar/{id}")
     public ResponseEntity<Mascota> buscarPorId(@PathVariable Long id){
         return ResponseEntity.ok(mascotaService.buscarPorId(id));
     }

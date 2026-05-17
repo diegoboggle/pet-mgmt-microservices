@@ -35,11 +35,16 @@ public class MascotaService {
         return mascotaRepository.findAll();
     }
 
-    public List<Mascota> listarPorUsuarioId(Long usuarioId) {
-        return mascotaRepository.findByUsuarioId(usuarioId);
+    public List<Mascota> listarPorUsuarioId(long usuarioId) {
+        List<Mascota> mascotas = mascotaRepository.findByUsuarioId(usuarioId);
+
+        if (mascotas.isEmpty()){
+            throw new RuntimeException("No se encontraron mascotas asociadas al id del propietario" + usuarioId);
+        }
+        return mascotas;
     }
 
-    public Mascota buscarPorId(Long id) {
+    public Mascota buscarPorId(long id) {
         return mascotaRepository.findById(id)
             .orElseThrow(() -> new RuntimeException("Mascota no encontrada con el ID: " + id));
     }

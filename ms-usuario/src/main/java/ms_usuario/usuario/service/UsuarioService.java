@@ -45,7 +45,7 @@ public class UsuarioService {
         log.info("Buscando usuario en la base de datos con email: {}", email);
 
         return usuarioRepository.findByEmail(email)
-        .orElseThrow(() -> {
+        .orElseThrow(() -> {    
             log.warn("Intento de búsqueda fallido. No existe el email: {}", email);
             return new RuntimeException("Usuario no encontrado");
         });

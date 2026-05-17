@@ -41,6 +41,17 @@
             "mainClass": "ms_mascotas.ms_mascotas.MsMascotasApplication",
             "projectName": "ms_mascotas",
             "args": "",
+            "envFile": "${workspaceFolder}/.env",
+            "vmArgs": " -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=52812 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Dspring.jmx.enabled=true -Djava.rmi.server.hostname=localhost -Dspring.application.admin.enabled=true -Dspring.boot.project.name=ms_mascotas"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-MsVeterinariaApplication<ms_veterinaria>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "ms_veterinaria.ms_veterinaria.MsVeterinariaApplication",
+            "projectName": "ms_veterinaria",
+            "args": "",
             "envFile": "${workspaceFolder}/.env"
         }
     ]
