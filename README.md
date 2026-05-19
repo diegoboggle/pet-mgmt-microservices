@@ -13,9 +13,9 @@ compila desde su propia carpeta con el Maven Wrapper incluido.
 | `ms-usuario` | `8082` | PostgreSQL | Usuarios |
 | `ms-mascotas` | `8083` | PostgreSQL | Mascotas |
 | `ms-veterinaria` | `8084` | PostgreSQL | Veterinarios |
-| `ms-citas` | `8085` | MySQL | Citas |
-| `ms-historial` | `8086` | MySQL | Historial medico |
-| `ms-vacunas` | `8087` | MySQL | Vacunas |
+| `ms-citas` | `8085` | PostgreSQL | Citas |
+| `ms-historial` | `8086` | PostgreSQL | Historial medico |
+| `ms-vacunas` | `8087` | PostgreSQL | Vacunas |
 | `ms-notificaciones` | `8088` | PostgreSQL | Notificaciones |
 | `ms-recordatorios` | `8089` | PostgreSQL | Recordatorios |
 | `ms-reportes` | `8090` | PostgreSQL | Reportes |
@@ -23,8 +23,7 @@ compila desde su propia carpeta con el Maven Wrapper incluido.
 ## Requisitos
 
 - JDK 21 o superior.
-- PostgreSQL para los servicios que usan PostgreSQL.
-- MySQL para los servicios que usan MySQL.
+- PostgreSQL para los servicios con persistencia.
 - Bash en Linux.
 
 No se requiere Docker ni herramientas de Node.
@@ -40,13 +39,25 @@ Variables comunes:
 | Variable | Uso |
 | --- | --- |
 | `SERVER_PORT` | Puerto HTTP del servicio |
-| `DB_HOST` | Host de la base de datos |
-| `DB_PORT` | Puerto de la base de datos |
-| `DB_NAME` | Nombre de la base de datos |
-| `DB_USERNAME` | Usuario de base de datos |
+| `DB_URL` | URL JDBC completa de PostgreSQL |
+| `DB_USER` | Usuario de base de datos |
 | `DB_PASSWORD` | Contrasena de base de datos |
 | `DDL_AUTO` | Valor de `spring.jpa.hibernate.ddl-auto` |
 | `JPA_SHOW_SQL` | Muestra SQL generado por Hibernate |
+
+Bases locales esperadas por defecto:
+
+| Servicio | Base de datos |
+| --- | --- |
+| `ms-usuario` | `ms_usuario_db` |
+| `ms-mascotas` | `ms_mascotas_db` |
+| `ms-veterinaria` | `ms_veterinaria_db` |
+| `ms-citas` | `ms_citas_db` |
+| `ms-historial` | `ms_historial_db` |
+| `ms-vacunas` | `ms_vacunas_db` |
+| `ms-notificaciones` | `ms_notificaciones_db` |
+| `ms-recordatorios` | `ms_recordatorios_db` |
+| `ms-reportes` | `ms_reportes_db` |
 
 Variables especificas de `ms-auth`:
 
@@ -82,7 +93,7 @@ cd ms-recordatorios
 ```
 
 Los tests usan H2 cuando el servicio requiere base de datos, por lo que no
-dependen de PostgreSQL ni MySQL locales.
+dependen de una base PostgreSQL local.
 
 ## Endpoints principales
 
