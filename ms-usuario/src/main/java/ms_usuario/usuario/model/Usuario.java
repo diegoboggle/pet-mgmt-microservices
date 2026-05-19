@@ -12,15 +12,15 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
-@Setter // Reemplazamos @Data por Getter y Setter para evitar problemas con Hibernate
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
 @Table(name = "usuarios")
 public class Usuario {
 
-    @Id // Identificador único.
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // Autoincremental.
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false) 
@@ -37,7 +37,6 @@ public class Usuario {
 
     private String direccion;
 
-    // ms-auth necesitará de estos datos
     @Column(nullable = false)
     private String password; 
 

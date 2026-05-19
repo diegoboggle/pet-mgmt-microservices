@@ -18,7 +18,6 @@ public class HistorialMedico {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    //ID de la mascota no usamos manyToOne porque cada ms tiene su propia bdd
     @Column(nullable = false)
     private Long mascotaId;
 

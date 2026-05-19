@@ -3,78 +3,66 @@ package com.example.mshistorialmedico.controller;
 import com.example.mshistorialmedico.dto.HistorialRequestDTO;
 import com.example.mshistorialmedico.model.HistorialMedico;
 import com.example.mshistorialmedico.service.HistorialService;
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.validation.Valid;
+import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-import java.util.List;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/v1/historial")
 public class HistorialController {
 
-    @Autowired
-    private HistorialService historialService;
+    private final HistorialService historialService;
 
-    // GET /api/v1/historial - Lista todos los registros
+    public HistorialController(HistorialService historialService) {
+        this.historialService = historialService;
+    }
+
     @GetMapping
-    public ResponseEntity<List<HistorialMedico>> listar(){
+    public ResponseEntity<List<HistorialMedico>> listar() {
         List<HistorialMedico> historial = historialService.findAll();
-        if(historial.isEmpty()){
+        if (historial.isEmpty()) {
             return ResponseEntity.noContent().build();
         }
         return ResponseEntity.ok(historial);
     }
 
-    // GET /api/v1/historial/{id} — Busca un registro por ID
     @GetMapping("/{id}")
-    public ResponseEntity<HistorialMedico> buscar(@PathVariable Long id){
-        try {
-            HistorialMedico historial = historialService.findById(id);
-            return ResponseEntity.ok(historial);
-        } catch (Exception e) {
-            return ResponseEntity.notFound().build();
-        }
+    public ResponseEntity<HistorialMedico> buscar(@PathVariable Long id) {
+        return ResponseEntity.ok(historialService.findById(id));
     }
 
-    // GET /api/v1/historial/mascota/{mascotaId} - todo el historial de una mascota 
     @GetMapping("/mascota/{mascotaId}")
-    public ResponseEntity<List<HistorialMedico>> listarPorMascota(@PathVariable Long mascotaId){
+    public ResponseEntity<List<HistorialMedico>> listarPorMascota(@PathVariable Long mascotaId) {
         List<HistorialMedico> historial = historialService.findByMascotaId(mascotaId);
-        if (historial.isEmpty()){
+        if (historial.isEmpty()) {
             return ResponseEntity.noContent().build();
         }
         return ResponseEntity.ok(historial);
     }
 
-    // POST /api/v1/historial — Registra una nueva consulta médica
-    // Recibe HistorialRequestDTO en vez de la entidad directamente
     @PostMapping
-    public ResponseEntity<HistorialMedico> guardar(@RequestBody HistorialRequestDTO dto) {
-        HistorialMedico nuevo = historialService.save(dto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(nuevo);
+    public ResponseEntity<HistorialMedico> guardar(@Valid @RequestBody HistorialRequestDTO dto) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(historialService.save(dto));
     }
 
-    // PUT /api/v1/historial/{id} — Actualiza un registro existente
     @PutMapping("/{id}")
-    public ResponseEntity<HistorialMedico> actualizar(@PathVariable Long id, @RequestBody HistorialRequestDTO dto) {
-        try {
-            HistorialMedico existente = historialService.findById(id);
-            HistorialMedico actualizado = historialService.update(existente, dto);
-            return ResponseEntity.ok(actualizado);
-        } catch (Exception e) {
-            return ResponseEntity.notFound().build();
-        }
+    public ResponseEntity<HistorialMedico> actualizar(@PathVariable Long id, @Valid @RequestBody HistorialRequestDTO dto) {
+        HistorialMedico existente = historialService.findById(id);
+        return ResponseEntity.ok(historialService.update(existente, dto));
     }
 
-    // DELETE /api/v1/historial/{id} - Elimina un registro por ID
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> eliminar(@PathVariable Long id){
-        try {
-            historialService.delete(id);
-            return ResponseEntity.noContent().build();
-        } catch (Exception e) {
-            return ResponseEntity.notFound().build();
-        }
+    public ResponseEntity<Void> eliminar(@PathVariable Long id) {
+        historialService.delete(id);
+        return ResponseEntity.noContent().build();
     }
 }

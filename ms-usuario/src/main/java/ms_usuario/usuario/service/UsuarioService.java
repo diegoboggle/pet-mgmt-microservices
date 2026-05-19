@@ -1,13 +1,13 @@
 package ms_usuario.usuario.service;
 
+import java.util.List;
+import lombok.extern.slf4j.Slf4j;
 import ms_usuario.usuario.dto.UsuarioDTO;
 import ms_usuario.usuario.model.Usuario;
 import ms_usuario.usuario.repository.UsuarioRepository;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import lombok.extern.slf4j.Slf4j;
-
-import java.util.List;
-
+import org.springframework.web.server.ResponseStatusException;
 
 @Slf4j
 @Service
@@ -20,9 +20,8 @@ public class UsuarioService {
     }
 
     public Usuario crearUsuario(UsuarioDTO dto) {
-        // Validamos que el email no esté registrado
         if (usuarioRepository.findByEmail(dto.getEmail()).isPresent()) {
-            throw new RuntimeException("El email ya se encuentra registrado");
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "El email ya se encuentra registrado");
         }
 
         Usuario usuario = new Usuario();
@@ -45,9 +44,9 @@ public class UsuarioService {
         log.info("Buscando usuario en la base de datos con email: {}", email);
 
         return usuarioRepository.findByEmail(email)
-        .orElseThrow(() -> {    
+        .orElseThrow(() -> {
             log.warn("Intento de búsqueda fallido. No existe el email: {}", email);
-            return new RuntimeException("Usuario no encontrado");
+            return new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuario no encontrado");
         });
     }
 }

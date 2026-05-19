@@ -1,10 +1,12 @@
 package ms_mascotas.ms_mascotas.service;
 
+import java.util.List;
 import ms_mascotas.ms_mascotas.dto.MascotaDTO;
 import ms_mascotas.ms_mascotas.model.Mascota;
 import ms_mascotas.ms_mascotas.repository.MascotaRepository;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import java.util.List;
+import org.springframework.web.server.ResponseStatusException;
 
 @Service
 public class MascotaService {
@@ -15,10 +17,9 @@ public class MascotaService {
         this.mascotaRepository = mascotaRepository;
     }
 
-
     public Mascota registrarMascota(MascotaDTO dto) {
-        if (dto.getUsuarioId()== null){
-            throw new RuntimeException("El ID del propietario es obligario");
+        if (dto.getUsuarioId() == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "El ID del propietario es obligatorio");
         }
 
         Mascota mascota = new Mascota();
@@ -36,17 +37,11 @@ public class MascotaService {
     }
 
     public List<Mascota> listarPorUsuarioId(long usuarioId) {
-        List<Mascota> mascotas = mascotaRepository.findByUsuarioId(usuarioId);
-
-        if (mascotas.isEmpty()){
-            throw new RuntimeException("No se encontraron mascotas asociadas al id del propietario" + usuarioId);
-        }
-        return mascotas;
+        return mascotaRepository.findByUsuarioId(usuarioId);
     }
 
     public Mascota buscarPorId(long id) {
         return mascotaRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("Mascota no encontrada con el ID: " + id));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Mascota no encontrada con el ID: " + id));
     }
-    
 }

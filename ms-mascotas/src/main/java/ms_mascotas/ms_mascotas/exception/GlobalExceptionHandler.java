@@ -1,34 +1,25 @@
 package ms_mascotas.ms_mascotas.exception;
 
-import org.springframework.http.HttpStatus;
+import java.util.HashMap;
+import java.util.Map;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import java.util.HashMap;
-import java.util.Map;
-
+import org.springframework.web.server.ResponseStatusException;
 
 @RestControllerAdvice
-
 public class GlobalExceptionHandler {
 
-    
-    @ExceptionHandler(RuntimeException.class)
-    public ResponseEntity<Map<String, Object>> handleRuntimeException(RuntimeException ex) {
-        Map<String, Object> response = new HashMap<>();
-        response.put("mensaje", ex.getMessage());
-        response.put("status", HttpStatus.BAD_REQUEST.value());
-        
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+    @ExceptionHandler(ResponseStatusException.class)
+    public ResponseEntity<Map<String, Object>> handleResponseStatusException(ResponseStatusException ex) {
+        int status = ex.getStatusCode().value();
+        return ResponseEntity.status(status).body(errorResponse(ex.getReason(), status));
     }
 
-    
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<Map<String, Object>> handleGeneralException(Exception ex) {
+    private Map<String, Object> errorResponse(String mensaje, int status) {
         Map<String, Object> response = new HashMap<>();
-        response.put("mensaje", "Error interno en el servidor de mascotas");
-        response.put("status", HttpStatus.INTERNAL_SERVER_ERROR.value());
-        
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+        response.put("mensaje", mensaje);
+        response.put("status", status);
+        return response;
     }
 }

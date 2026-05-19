@@ -5,6 +5,7 @@ import ms_auth.ms_auth.client.UsuarioClient;
 import ms_auth.ms_auth.dto.AuthRequest;
 import ms_auth.ms_auth.client.TokenResponse;
 import ms_auth.ms_auth.security.JwtProvider;
+import java.util.Objects;
 import org.springframework.stereotype.Service;
 
 @Slf4j 
@@ -22,17 +23,13 @@ public class AuthService {
     public TokenResponse login(AuthRequest request) {
         log.info("Intento de login recibido para el email: {}", request.getEmail());
 
-        // 1. Llamamos a ms-usuario a través de la red (Feign)
         AuthRequest usuario = usuarioClient.buscarPorEmail(request.getEmail());
 
-        // 2. Validamos la contraseña
-        if (!usuario.getPassword().equals(request.getPassword())) {
+        if (!Objects.equals(usuario.getPassword(), request.getPassword())) {
             log.warn("Intento de login fallido. Contraseña incorrecta para: {}", request.getEmail());
-            // CAMBIO AQUÍ: Usamos IllegalArgumentException para que el handler devuelva 401 Unauthorized
             throw new IllegalArgumentException("Credenciales inválidas");
         }
 
-        // 3. Si todo está correcto, fabricamos el Token
         String token = jwtProvider.generateToken(usuario.getEmail(), usuario.getRol());
         log.info("Login exitoso. Token generado correctamente.");
 

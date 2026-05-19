@@ -19,11 +19,9 @@ public class Citas {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
  
-    // ID de la mascota — no usamos @ManyToOne porque cada microservicio tiene su propia BD
     @Column(nullable = false)
     private Long mascotaId;
  
-    // ID de la veterinaria — igual, solo guardamos el ID
     @Column(nullable = false)
     private Long veterinariaId;
  
@@ -36,7 +34,6 @@ public class Citas {
     @Column(nullable = false)
     private String motivoCita;
  
-    // Estado: PENDIENTE, CONFIRMADA, CANCELADA, COMPLETADA
     @Column(nullable = false)
     private String estado;
  

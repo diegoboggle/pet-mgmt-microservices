@@ -1,22 +1,33 @@
 package com.example.mscitas.controller;
- 
+
 import com.example.mscitas.dto.CitaRequestDTO;
 import com.example.mscitas.model.Citas;
 import com.example.mscitas.service.CitasService;
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.validation.Valid;
+import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-import java.util.List;
- 
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
 @RestController
 @RequestMapping("/api/v1/citas")
 public class CitasController {
- 
-    @Autowired
-    private CitasService citasService;
- 
-    // GET /api/v1/citas — Lista todas las citas
+
+    private final CitasService citasService;
+
+    public CitasController(CitasService citasService) {
+        this.citasService = citasService;
+    }
+
     @GetMapping
     public ResponseEntity<List<Citas>> listar() {
         List<Citas> citas = citasService.findAll();
@@ -25,19 +36,12 @@ public class CitasController {
         }
         return ResponseEntity.ok(citas);
     }
- 
-    // GET /api/v1/citas/{id} — Busca una cita por ID
+
     @GetMapping("/{id}")
     public ResponseEntity<Citas> buscar(@PathVariable Long id) {
-        try {
-            Citas cita = citasService.findById(id);
-            return ResponseEntity.ok(cita);
-        } catch (Exception e) {
-            return ResponseEntity.notFound().build();
-        }
+        return ResponseEntity.ok(citasService.findById(id));
     }
- 
-    // GET /api/v1/citas/mascota/{mascotaId} — Todas las citas de una mascota
+
     @GetMapping("/mascota/{mascotaId}")
     public ResponseEntity<List<Citas>> listarPorMascota(@PathVariable Long mascotaId) {
         List<Citas> citas = citasService.findByMascotaId(mascotaId);
@@ -46,8 +50,7 @@ public class CitasController {
         }
         return ResponseEntity.ok(citas);
     }
- 
-    // GET /api/v1/citas/estado/{estado} — Citas filtradas por estado
+
     @GetMapping("/estado/{estado}")
     public ResponseEntity<List<Citas>> listarPorEstado(@PathVariable String estado) {
         List<Citas> citas = citasService.findByEstado(estado);
@@ -56,8 +59,7 @@ public class CitasController {
         }
         return ResponseEntity.ok(citas);
     }
- 
-    // GET /api/v1/citas/veterinaria/{veterinariaId} — Citas de una veterinaria
+
     @GetMapping("/veterinaria/{veterinariaId}")
     public ResponseEntity<List<Citas>> listarPorVeterinaria(@PathVariable Long veterinariaId) {
         List<Citas> citas = citasService.findByVeterinariaId(veterinariaId);
@@ -66,47 +68,27 @@ public class CitasController {
         }
         return ResponseEntity.ok(citas);
     }
- 
-    // POST /api/v1/citas — Agenda una cita nueva
-    // Recibe CitaRequestDTO — el estado lo asigna el Service automáticamente como PENDIENTE
+
     @PostMapping
-    public ResponseEntity<Citas> guardar(@RequestBody CitaRequestDTO dto) {
-        Citas nueva = citasService.save(dto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(nueva);
+    public ResponseEntity<Citas> guardar(@Valid @RequestBody CitaRequestDTO dto) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(citasService.save(dto));
     }
- 
-    // PUT /api/v1/citas/{id} — Actualiza o reprograma una cita
+
     @PutMapping("/{id}")
-    public ResponseEntity<Citas> actualizar(@PathVariable Long id, @RequestBody CitaRequestDTO dto) {
-        try {
-            Citas existente = citasService.findById(id);
-            Citas actualizada = citasService.update(existente, dto);
-            return ResponseEntity.ok(actualizada);
-        } catch (Exception e) {
-            return ResponseEntity.notFound().build();
-        }
+    public ResponseEntity<Citas> actualizar(@PathVariable Long id, @Valid @RequestBody CitaRequestDTO dto) {
+        Citas existente = citasService.findById(id);
+        return ResponseEntity.ok(citasService.update(existente, dto));
     }
- 
-    // PATCH /api/v1/citas/{id}/estado?nuevoEstado=CONFIRMADA — Cambia solo el estado
+
     @PatchMapping("/{id}/estado")
     public ResponseEntity<Citas> cambiarEstado(@PathVariable Long id, @RequestParam String nuevoEstado) {
-        try {
-            Citas existente = citasService.findById(id);
-            Citas actualizada = citasService.cambiarEstado(existente, nuevoEstado);
-            return ResponseEntity.ok(actualizada);
-        } catch (Exception e) {
-            return ResponseEntity.notFound().build();
-        }
+        Citas existente = citasService.findById(id);
+        return ResponseEntity.ok(citasService.cambiarEstado(existente, nuevoEstado));
     }
- 
-    // DELETE /api/v1/citas/{id} — Elimina una cita por ID
+
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> eliminar(@PathVariable Long id) {
-        try {
-            citasService.delete(id);
-            return ResponseEntity.noContent().build();
-        } catch (Exception e) {
-            return ResponseEntity.notFound().build();
-        }
+    public ResponseEntity<Void> eliminar(@PathVariable Long id) {
+        citasService.delete(id);
+        return ResponseEntity.noContent().build();
     }
 }

@@ -17,7 +17,7 @@ public class Veterinaria {
     @Column(nullable = false)
     private String apellido;
 
-    private String especialidad; // ej: Cirujano, General, Exóticos
+    private String especialidad;
 
     @Column(nullable = false, unique = true)
     private String email;

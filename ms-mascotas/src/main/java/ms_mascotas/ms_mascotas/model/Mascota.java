@@ -17,6 +17,6 @@ public class Mascota {
     private String especie; 
     private String raza;
     private Integer edad;
-    private Long usuarioId; // Relación con Usuario (ID del propietario)
+    private Long usuarioId;
      
 }
