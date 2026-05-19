@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # 🐾 Pet Management System - Microservices Architecture
 
 > **Academic Note:** This project was developed as an academic assignment for the **Full Stack I** course. Its primary purpose is to demonstrate the design, implementation, and deployment of a microservices-oriented architecture using modern Java ecosystem technologies.
@@ -133,3 +134,8 @@ Each microservice exposes a RESTful API. Below are the primary endpoints for eac
 ## 🤝 Contribution & Context
 
 This repository is strictly for educational purposes as part of a university assessment. If you are a team member contributing to this project, please adhere to the established coding conventions discussed in class and ensure you create descriptive feature branches before submitting a Pull Request.
+=======
+# pet-management-microservices
+
+App de mascotas (full stack 1)
+>>>>>>> origin/dev-tomassilva
