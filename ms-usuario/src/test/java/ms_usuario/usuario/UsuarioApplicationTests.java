@@ -14,7 +14,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
 
-@SpringBootTest
+@SpringBootTest(properties = {
+		"debug=false",
+		"eureka.client.enabled=false",
+		"logging.level.org.springframework=INFO",
+		"logging.level.org.hibernate.SQL=OFF"
+})
 class UsuarioApplicationTests {
 
 	@Autowired

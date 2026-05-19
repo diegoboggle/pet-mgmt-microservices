@@ -19,6 +19,7 @@ import org.springframework.web.server.ResponseStatusException;
 		"spring.datasource.driver-class-name=org.h2.Driver",
 		"spring.jpa.hibernate.ddl-auto=create-drop",
 		"spring.jpa.show-sql=false",
+		"eureka.client.enabled=false",
 		"debug=false",
 		"logging.level.org.springframework=INFO",
 		"logging.level.org.hibernate.SQL=OFF"

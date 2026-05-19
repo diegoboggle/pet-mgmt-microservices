@@ -1,8 +1,8 @@
 # pet-mgmt-microservices
 
 Backend de gestion de mascotas construido con Java, Spring Boot y Maven. El
-repositorio contiene varios microservicios independientes; cada servicio se
-compila desde su propia carpeta con el Maven Wrapper incluido.
+repositorio contiene microservicios independientes; cada servicio se compila
+desde su propia carpeta con el Maven Wrapper incluido.
 
 ## Microservicios
 
@@ -22,7 +22,7 @@ compila desde su propia carpeta con el Maven Wrapper incluido.
 
 ## Requisitos
 
-- JDK 21 o superior.
+- JDK 21.
 - PostgreSQL para los servicios con persistencia.
 - Bash en Linux.
 
@@ -49,15 +49,15 @@ Bases locales esperadas por defecto:
 
 | Servicio | Base de datos |
 | --- | --- |
-| `ms-usuario` | `ms_usuario_db` |
-| `ms-mascotas` | `ms_mascotas_db` |
-| `ms-veterinaria` | `ms_veterinaria_db` |
-| `ms-citas` | `ms_citas_db` |
-| `ms-historial` | `ms_historial_db` |
-| `ms-vacunas` | `ms_vacunas_db` |
-| `ms-notificaciones` | `ms_notificaciones_db` |
-| `ms-recordatorios` | `ms_recordatorios_db` |
-| `ms-reportes` | `ms_reportes_db` |
+| `ms-usuario` | `db_usuarios` |
+| `ms-mascotas` | `db_mascotas` |
+| `ms-veterinaria` | `db_veterinaria` |
+| `ms-citas` | `db_citas` |
+| `ms-historial` | `db_historial` |
+| `ms-vacunas` | `db_vacunas` |
+| `ms-notificaciones` | `db_notificaciones` |
+| `ms-recordatorios` | `db_recordatorios` |
+| `ms-reportes` | `db_reportes` |
 
 Variables especificas de `ms-auth`:
 
@@ -72,14 +72,14 @@ Variables especificas de `ms-auth`:
 Desde la raiz del repositorio, entra al servicio que quieras ejecutar:
 
 ```bash
-cd ms-usuario
+cd ms-eureka
 ./mvnw spring-boot:run
 ```
 
 Para ejecutar otro servicio, vuelve a la raiz y repite el mismo patron:
 
 ```bash
-cd ../ms-mascotas
+cd ../ms-usuario
 ./mvnw spring-boot:run
 ```
 
@@ -92,8 +92,8 @@ cd ms-recordatorios
 ./mvnw test
 ```
 
-Los tests usan H2 cuando el servicio requiere base de datos, por lo que no
-dependen de una base PostgreSQL local.
+Los tests usan H2 cuando el servicio requiere base de datos y deshabilitan
+Eureka, por lo que no dependen de PostgreSQL ni del registry local.
 
 ## Endpoints principales
 
