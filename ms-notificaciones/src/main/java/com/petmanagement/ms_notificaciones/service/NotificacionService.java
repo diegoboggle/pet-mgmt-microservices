@@ -7,6 +7,7 @@ import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -53,18 +54,18 @@ public class NotificacionService {
     }
 
     @Transactional(readOnly = true)
-    public Notificacion obtenerPorId(Long id) {
+    public Notificacion obtenerPorId(@NonNull Long id) {
         return notificacionRepository.findById(id)
                 .orElseThrow(() -> noEncontrada(id));
     }
 
-    public Notificacion actualizarEstado(Long id, boolean enviada) {
+    public Notificacion actualizarEstado(@NonNull Long id, boolean enviada) {
         Notificacion notificacion = obtenerPorId(id);
         notificacion.setEnviada(enviada);
         return notificacionRepository.save(notificacion);
     }
 
-    public void eliminar(Long id) {
+    public void eliminar(@NonNull Long id) {
         if (!notificacionRepository.existsById(id)) {
             throw noEncontrada(id);
         }
@@ -75,7 +76,7 @@ public class NotificacionService {
         return valor == null ? null : valor.trim();
     }
 
-    private ResponseStatusException noEncontrada(Long id) {
+    private ResponseStatusException noEncontrada(@NonNull Long id) {
         return new ResponseStatusException(HttpStatus.NOT_FOUND, "No existe la notificación con id " + id);
     }
 }

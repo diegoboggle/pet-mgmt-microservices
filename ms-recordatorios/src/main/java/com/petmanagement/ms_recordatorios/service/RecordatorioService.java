@@ -7,6 +7,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -52,18 +53,18 @@ public class RecordatorioService {
     }
 
     @Transactional(readOnly = true)
-    public Recordatorio obtenerPorId(Long id) {
+    public Recordatorio obtenerPorId(@NonNull Long id) {
         return recordatorioRepository.findById(id)
                 .orElseThrow(() -> noEncontrado(id));
     }
 
-    public Recordatorio actualizarEstado(Long id, boolean completado) {
+    public Recordatorio actualizarEstado(@NonNull Long id, boolean completado) {
         Recordatorio recordatorio = obtenerPorId(id);
         recordatorio.setCompletado(completado);
         return recordatorioRepository.save(recordatorio);
     }
 
-    public void eliminar(Long id) {
+    public void eliminar(@NonNull Long id) {
         if (!recordatorioRepository.existsById(id)) {
             throw noEncontrado(id);
         }
@@ -74,7 +75,7 @@ public class RecordatorioService {
         return valor == null ? null : valor.trim();
     }
 
-    private ResponseStatusException noEncontrado(Long id) {
+    private ResponseStatusException noEncontrado(@NonNull Long id) {
         return new ResponseStatusException(HttpStatus.NOT_FOUND, "No existe el recordatorio con id " + id);
     }
 }

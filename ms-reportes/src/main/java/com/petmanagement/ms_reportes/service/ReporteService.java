@@ -7,6 +7,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -62,12 +63,12 @@ public class ReporteService {
     }
 
     @Transactional(readOnly = true)
-    public Reporte obtenerPorId(Long id) {
+    public Reporte obtenerPorId(@NonNull Long id) {
         return reporteRepository.findById(id)
                 .orElseThrow(() -> noEncontrado(id));
     }
 
-    public void eliminar(Long id) {
+    public void eliminar(@NonNull Long id) {
         if (!reporteRepository.existsById(id)) {
             throw noEncontrado(id);
         }
@@ -78,7 +79,7 @@ public class ReporteService {
         return valor == null ? null : valor.trim();
     }
 
-    private ResponseStatusException noEncontrado(Long id) {
+    private ResponseStatusException noEncontrado(@NonNull Long id) {
         return new ResponseStatusException(HttpStatus.NOT_FOUND, "No existe el reporte con id " + id);
     }
 }
