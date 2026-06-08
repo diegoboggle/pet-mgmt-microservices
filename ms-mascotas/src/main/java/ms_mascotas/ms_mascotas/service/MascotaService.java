@@ -1,6 +1,10 @@
 package ms_mascotas.ms_mascotas.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import ms_mascotas.ms_mascotas.client.UsuarioClient;
 import ms_mascotas.ms_mascotas.dto.MascotaDTO;
 import ms_mascotas.ms_mascotas.model.Mascota;
 import ms_mascotas.ms_mascotas.repository.MascotaRepository;
@@ -12,9 +16,11 @@ import org.springframework.web.server.ResponseStatusException;
 public class MascotaService {
 
     private final MascotaRepository mascotaRepository;
+    private final UsuarioClient usuarioClient;
 
-    public MascotaService(MascotaRepository mascotaRepository) {
+    public MascotaService(MascotaRepository mascotaRepository, UsuarioClient usuarioClient) {
         this.mascotaRepository = mascotaRepository;
+        this.usuarioClient = usuarioClient;
     }
 
     public Mascota registrarMascota(MascotaDTO dto) {
@@ -44,4 +50,19 @@ public class MascotaService {
         return mascotaRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Mascota no encontrada con el ID: " + id));
     }
+
+    public Map<String, Object> obtenerMascotaConDuenio(Long id) {
+        // 1. Buscamos la mascota en la BD local
+        Mascota mascota = buscarPorId(id);
+
+        // 2. Llamada síncrona al ms-usuario para traer los datos del dueño
+        Object duenio = usuarioClient.obtenerUsuarioPorId(mascota.getUsuarioId());
+
+        // 3. Construcción del objeto compuesto
+        Map<String, Object> respuesta = new HashMap<>();
+        respuesta.put("mascota", mascota);
+        respuesta.put("propietario", duenio);
+
+        return respuesta;
+}
 }

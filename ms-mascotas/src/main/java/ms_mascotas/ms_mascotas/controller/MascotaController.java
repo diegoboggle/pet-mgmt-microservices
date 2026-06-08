@@ -2,6 +2,8 @@ package ms_mascotas.ms_mascotas.controller;
 
 import jakarta.validation.Valid;
 import java.util.List;
+import java.util.Map;
+
 import ms_mascotas.ms_mascotas.dto.MascotaDTO;
 import ms_mascotas.ms_mascotas.model.Mascota;
 import ms_mascotas.ms_mascotas.service.MascotaService;
@@ -35,11 +37,12 @@ public class MascotaController {
     }
 
     @GetMapping("/usuario/{usuarioId}")
-    public ResponseEntity<List<Mascota>> buscarPorUsuario(@PathVariable Long usuarioId) {
+    public ResponseEntity<List<Mascota>> listarPorUsuarioId(@PathVariable ("usuarioId") Long usuarioId) {
         List<Mascota> mascotas = mascotaService.listarPorUsuarioId(usuarioId);
-        if (mascotas.isEmpty()) {
-            return ResponseEntity.noContent().build();
-        }
         return ResponseEntity.ok(mascotas);
     }
+    @GetMapping("/{id}/detalle-completo")
+    public ResponseEntity<Map<String, Object>> obtenerDetalleCompleto(@PathVariable Long id) {
+    return ResponseEntity.ok(mascotaService.obtenerMascotaConDuenio(id));
 }
+}   

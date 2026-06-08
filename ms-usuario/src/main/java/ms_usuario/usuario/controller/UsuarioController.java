@@ -10,6 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
+import java.util.Map;
+
 
 @Slf4j
 @RestController
@@ -39,5 +41,11 @@ public class UsuarioController {
     public ResponseEntity<Usuario> buscarPorEmail(@RequestParam String email) {
         return ResponseEntity.ok(usuarioService.buscarPorEmail(email));
     }
+    
+
+    @GetMapping("/{id}/mascotas")
+    public ResponseEntity<Map<String, Object>> verPerfilCompleto(@PathVariable Long id) {
+    return ResponseEntity.ok(usuarioService.obtenerUsuarioConSusMascotas(id));
+}
     
 }   
