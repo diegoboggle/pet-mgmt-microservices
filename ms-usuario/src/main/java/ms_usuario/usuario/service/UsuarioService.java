@@ -68,5 +68,10 @@ public class UsuarioService {
 
         return respuesta;
     }
+
+    public Usuario obtenerUsuarioPorId(long l) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'obtenerUsuarioPorId'");
+    }
     
 }

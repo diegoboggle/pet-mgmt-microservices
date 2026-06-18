@@ -1,0 +1,28 @@
+server:
+  port: 8080 # Puerto estándar universal para un API Gateway
+
+spring:
+  application:
+    name: apigateway
+  cloud:
+    gateway:
+      routes:
+        # Enrutamiento para el Microservicio de Usuarios
+        - id: ms-usuario
+          uri: lb://MS-USUARIO
+          predicates:
+            - Path=/api/v1/usuarios/**
+
+        # Enrutamiento para el Microservicio de Mascotas
+        - id: ms-mascotas
+          uri: lb://MS-MASCOTAS
+          predicates:
+            - Path=/api/v1/mascotas/**
+
+# Configuración para conectarse al Servidor Eureka
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    prefer-ip-address: true

@@ -54,15 +54,20 @@ public class MascotaService {
     public Map<String, Object> obtenerMascotaConDuenio(Long id) {
         // 1. Buscamos la mascota en la BD local
         Mascota mascota = buscarPorId(id);
-
         // 2. Llamada síncrona al ms-usuario para traer los datos del dueño
         Object duenio = usuarioClient.obtenerUsuarioPorId(mascota.getUsuarioId());
-
         // 3. Construcción del objeto compuesto
         Map<String, Object> respuesta = new HashMap<>();
         respuesta.put("mascota", mascota);
         respuesta.put("propietario", duenio);
-
         return respuesta;
-}
+
+    }
+    public void eliminarMascota(Long id){
+        if (!mascotaRepository.existsById(id)){
+            throw new RuntimeException("No se puede eliminar: Mascota no encontrada con ID:" + id);
+        }
+        mascotaRepository.deleteById(id);
+    }
+
 }
