@@ -3,9 +3,8 @@
 Este proyecto consiste en una arquitectura robusta de microservicios desarrollada con **Java 21**, **Spring Boot 3.2.5** y **Spring Cloud 2023.0.1**. Implementa patrones de diseño como API Gateway, Config Server, Eureka Service Discovery y Circuit Breaker (Resilience4j) para asegurar tolerancia a fallos. Todo el proyecto aplica estrictamente el patrón **CSR (Controller - Service - Repository)** y principios de *Clean Code*.
 
 ## 👨‍💻 Equipo de Desarrollo (Estudiantes)
-- [Tu Nombre y Apellido]
-- [Nombre de Compañero/a 1]
-- [Nombre de Compañero/a 2]
+- Tomás Silva
+- Diego Boggle
 
 ## 🏗️ Microservicios Implementados
 
