@@ -1,7 +1,11 @@
 package ms_usuario.usuario.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import lombok.extern.slf4j.Slf4j;
+import ms_usuario.usuario.client.MascotaClient;
 import ms_usuario.usuario.dto.UsuarioDTO;
 import ms_usuario.usuario.model.Usuario;
 import ms_usuario.usuario.repository.UsuarioRepository;
@@ -14,9 +18,11 @@ import org.springframework.web.server.ResponseStatusException;
 public class UsuarioService {
 
     private final UsuarioRepository usuarioRepository;
+    private final MascotaClient mascotaClient;
 
-    public UsuarioService(UsuarioRepository usuarioRepository) {
+    public UsuarioService(UsuarioRepository usuarioRepository, MascotaClient mascotaClient) {
         this.usuarioRepository = usuarioRepository;
+        this.mascotaClient = mascotaClient;
     }
 
     public Usuario crearUsuario(UsuarioDTO dto) {
@@ -49,4 +55,23 @@ public class UsuarioService {
             return new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuario no encontrado");
         });
     }
+
+
+    public Map<String, Object> obtenerUsuarioConSusMascotas(Long usuarioId){
+        Usuario usuario = usuarioRepository.findById(usuarioId)
+                .orElseThrow(()-> new RuntimeException("Usuario no encontrado"));
+        List<Object> mascotas = mascotaClient.listarPorUsuarioId(usuarioId);
+
+        Map<String, Object> respuesta = new HashMap<>();
+        respuesta.put("usuario", usuario);
+        respuesta.put("mascotas", mascotas);
+
+        return respuesta;
+    }
+
+    public Usuario obtenerUsuarioPorId(long l) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'obtenerUsuarioPorId'");
+    }
+    
 }
