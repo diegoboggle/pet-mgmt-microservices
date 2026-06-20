@@ -1,25 +1,29 @@
 server:
-  port: 8080 # Puerto estándar universal para un API Gateway
-
+  port: 8080
 spring:
+  config:
+    import: optional:configserver:http://localhost:8888/
   application:
     name: apigateway
   cloud:
     gateway:
       routes:
-        # Enrutamiento para el Microservicio de Usuarios
+        - id: ms-auth
+          uri: lb://MS-AUTH
+          predicates:
+            - Path=/api/v1/auth/**
         - id: ms-usuario
           uri: lb://MS-USUARIO
           predicates:
             - Path=/api/v1/usuarios/**
-
-        # Enrutamiento para el Microservicio de Mascotas
+          filters:
+            - JwtAuthenticationFilter
         - id: ms-mascotas
           uri: lb://MS-MASCOTAS
           predicates:
             - Path=/api/v1/mascotas/**
-
-# Configuración para conectarse al Servidor Eureka
+          filters:
+            - JwtAuthenticationFilter
 eureka:
   client:
     service-url:

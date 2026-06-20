@@ -1,4 +1,4 @@
-package ms_usuario.usuario; // Ajusta a tu paquete real
+package ms_usuario.usuario; 
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -23,7 +23,7 @@ public class UsuarioServiceTest {
     private UsuarioRepository usuarioRepository;
 
     @InjectMocks
-    private UsuarioService usuarioService; // Ajusta al nombre real de tu servicio de usuarios
+    private UsuarioService usuarioService; 
 
     private Usuario usuarioPrueba;
 
@@ -37,14 +37,14 @@ public class UsuarioServiceTest {
 
     @Test
     void obtenerUsuarioPorId_DeberiaRetornarUsuario_CuandoExiste() {
-        // ARRANGE
+        
         when(usuarioRepository.findById(1L)).thenReturn(Optional.of(usuarioPrueba));
 
-        // ACT
-        // Ajusta el nombre del método si en tu servicio se llama "buscarPorId" o "getUsuario"
+        
+        
         Usuario resultado = usuarioService.obtenerUsuarioPorId(1L); 
 
-        // ASSERT
+        
         assertNotNull(resultado);
         assertEquals("Tomas", resultado.getNombre());
         verify(usuarioRepository, times(1)).findById(1L);

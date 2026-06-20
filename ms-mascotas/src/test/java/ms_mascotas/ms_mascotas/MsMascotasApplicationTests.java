@@ -18,7 +18,9 @@ import org.springframework.web.server.ResponseStatusException;
 		"debug=false",
 		"eureka.client.enabled=false",
 		"logging.level.org.springframework=INFO",
-		"logging.level.org.hibernate.SQL=OFF"
+		"logging.level.org.hibernate.SQL=OFF",
+		"spring.profiles.active=test",
+		"springdoc.enable-hateoas=false"
 })
 class MsMascotasApplicationTests {
 

@@ -7,7 +7,7 @@ import ms_mascotas.ms_mascotas.dto.MascotaDTO;
 import ms_mascotas.ms_mascotas.model.Mascota;
 import ms_mascotas.ms_mascotas.service.MascotaService;
 
-// 1. Imports correctos de HATEOAS
+
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.Link;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
@@ -45,12 +45,12 @@ public class MascotaController {
         Mascota mascota = mascotaService.buscarPorId(id);
         EntityModel<Mascota> recurso = EntityModel.of(mascota);
         
-        // Letra 'O' mayúscula en methodOn, no un cero
+        
         Link selfLink = linkTo(methodOn(MascotaController.class).buscarPorId(id)).withSelfRel();
         recurso.add(selfLink);
         
         Link deleteLink = linkTo(methodOn(MascotaController.class).eliminarMascota(id)).withRel("eliminar");
-        recurso.add(deleteLink); // Aquí agregamos el deleteLink correctamente
+        recurso.add(deleteLink); 
         
         return ResponseEntity.ok(recurso);
     }

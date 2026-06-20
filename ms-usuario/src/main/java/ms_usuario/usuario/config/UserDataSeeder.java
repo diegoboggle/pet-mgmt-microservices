@@ -1,7 +1,7 @@
-package ms_usuario.usuario.config; // Ajusta a tu paquete real (ej: com.duoc.msuser o el tuyo)
+package ms_usuario.usuario.config; 
 
-import ms_usuario.usuario.model.Usuario; // Ajusta a tu modelo real
-import ms_usuario.usuario.repository.UsuarioRepository; // Ajusta a tu repositorio real
+import ms_usuario.usuario.model.Usuario; 
+import ms_usuario.usuario.repository.UsuarioRepository; 
 import net.datafaker.Faker;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -26,16 +26,16 @@ public class UserDataSeeder implements CommandLineRunner {
             for (int i = 0; i < 5; i++) {
                 Usuario usuario = new Usuario();
                 
-                // Los datos que ya teníamos
+                
                 usuario.setNombre(faker.name().firstName());
                 usuario.setApellido(faker.name().lastName());
                 usuario.setEmail(faker.internet().emailAddress());
                 
-                // ¡Los datos nuevos para que la base de datos no reclame!
-                usuario.setPassword(faker.internet().password(8, 15, true, true, true)); // Contraseña segura aleatoria
+                
+                usuario.setPassword(faker.internet().password(8, 15, true, true, true)); 
                 usuario.setDireccion(faker.address().streetAddress());
                 usuario.setTelefono(faker.phoneNumber().cellPhone());
-                usuario.setRol("USER"); // Le asignamos el rol por defecto
+                usuario.setRol("USER"); 
                 
                 usuarioRepository.save(usuario);
             }

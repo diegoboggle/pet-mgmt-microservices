@@ -1,11 +1,11 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.5.3</version>
+        <version>3.2.5</version>
         <relativePath/>
     </parent>
     
@@ -14,12 +14,12 @@
     <version>0.0.1-SNAPSHOT</version>
     <packaging>war</packaging>
     <name>ms-auth</name>
-    <description>Microservicio de AutenticaciÃ³n</description>
+    <description>Microservicio de Autenticación</description>
     
     <properties>
         <java.version>21</java.version>
         <lombok.version>1.18.46</lombok.version>
-        <spring-cloud.version>2025.0.0</spring-cloud.version>
+        <spring-cloud.version>2023.0.1</spring-cloud.version>
     </properties>
 
     <dependencyManagement>
@@ -31,7 +31,15 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-        </dependencies>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-circuitbreaker-resilience4j</artifactId>
+        </dependency>
+    <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-config</artifactId>
+        </dependency>
+    </dependencies>
     </dependencyManagement>
 
     <dependencies>
@@ -106,6 +114,14 @@
             <artifactId>spring-security-test</artifactId>
             <scope>test</scope>
         </dependency>
+    <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-circuitbreaker-resilience4j</artifactId>
+        </dependency>
+    <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-config</artifactId>
+        </dependency>
     </dependencies>
 
     <build>
@@ -138,3 +154,5 @@
         </plugins>
     </build>
 </project>
+
+

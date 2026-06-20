@@ -52,11 +52,11 @@ public class MascotaService {
     }
 
     public Map<String, Object> obtenerMascotaConDuenio(Long id) {
-        // 1. Buscamos la mascota en la BD local
+        
         Mascota mascota = buscarPorId(id);
-        // 2. Llamada síncrona al ms-usuario para traer los datos del dueño
+        
         Object duenio = usuarioClient.obtenerUsuarioPorId(mascota.getUsuarioId());
-        // 3. Construcción del objeto compuesto
+        
         Map<String, Object> respuesta = new HashMap<>();
         respuesta.put("mascota", mascota);
         respuesta.put("propietario", duenio);

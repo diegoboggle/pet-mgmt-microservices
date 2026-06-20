@@ -13,16 +13,20 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
+
 @Slf4j
 @Service
 public class UsuarioService {
 
     private final UsuarioRepository usuarioRepository;
     private final MascotaClient mascotaClient;
+    private final PasswordEncoder passwordEncoder;
 
-    public UsuarioService(UsuarioRepository usuarioRepository, MascotaClient mascotaClient) {
+    public UsuarioService(UsuarioRepository usuarioRepository, MascotaClient mascotaClient, PasswordEncoder passwordEncoder) {
         this.usuarioRepository = usuarioRepository;
         this.mascotaClient = mascotaClient;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public Usuario crearUsuario(UsuarioDTO dto) {
@@ -36,7 +40,7 @@ public class UsuarioService {
         usuario.setEmail(dto.getEmail());
         usuario.setTelefono(dto.getTelefono());
         usuario.setDireccion(dto.getDireccion());
-        usuario.setPassword(dto.getPassword());
+        usuario.setPassword(passwordEncoder.encode(dto.getPassword()));
         usuario.setRol(dto.getRol());
 
         return usuarioRepository.save(usuario);
@@ -69,9 +73,9 @@ public class UsuarioService {
         return respuesta;
     }
 
-    public Usuario obtenerUsuarioPorId(long l) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'obtenerUsuarioPorId'");
+    public Usuario obtenerUsuarioPorId(long id) {
+        return usuarioRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuario no encontrado"));
     }
     
 }

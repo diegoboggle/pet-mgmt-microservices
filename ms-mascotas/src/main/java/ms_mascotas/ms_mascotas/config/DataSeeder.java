@@ -1,4 +1,4 @@
-package ms_mascotas.ms_mascotas.config; // Ajusta la ruta si es necesario
+package ms_mascotas.ms_mascotas.config; 
 
 import ms_mascotas.ms_mascotas.model.Mascota;
 import ms_mascotas.ms_mascotas.repository.MascotaRepository;
@@ -19,19 +19,19 @@ public class DataSeeder implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        // Solo insertamos datos si la tabla de mascotas está vacía
+        
         if (mascotaRepository.count() == 0) {
             
-            // Configuramos Faker en español
+            
             Faker faker = new Faker(new Locale("es"));
 
             System.out.println("🌱 Iniciando la siembra de datos falsos con Datafaker...");
 
-            // Vamos a crear 10 mascotas falsas
+            
             for (int i = 0; i < 10; i++) {
                 Mascota mascota = new Mascota();
                 
-                // Usamos Datafaker para inventar datos de perros y gatos
+                
                 if (i % 2 == 0) {
                     mascota.setNombre(faker.dog().name());
                     mascota.setEspecie("Perro");
@@ -43,7 +43,7 @@ public class DataSeeder implements CommandLineRunner {
                 }
                 
                 mascota.setEdad(faker.number().numberBetween(1, 15));
-                mascota.setUsuarioId(faker.number().numberBetween(1L, 5L)); // Asignamos a usuarios del 1 al 5
+                mascota.setUsuarioId(faker.number().numberBetween(1L, 5L)); 
 
                 mascotaRepository.save(mascota);
             }

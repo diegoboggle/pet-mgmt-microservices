@@ -4,7 +4,7 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-// El name debe ser igual al spring.application.name de ms-usuario en Eureka
+
 @FeignClient(name = "ms-usuario") 
 public interface UsuarioClient {
 
