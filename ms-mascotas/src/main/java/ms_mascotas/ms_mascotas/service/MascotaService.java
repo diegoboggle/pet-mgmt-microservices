@@ -63,7 +63,7 @@ public class MascotaService {
         return respuesta;
 
     }
-    public void eliminarMascota(Long id){
+    public void eliminarMascota(long id){
         if (!mascotaRepository.existsById(id)){
             throw new RuntimeException("No se puede eliminar: Mascota no encontrada con ID:" + id);
         }

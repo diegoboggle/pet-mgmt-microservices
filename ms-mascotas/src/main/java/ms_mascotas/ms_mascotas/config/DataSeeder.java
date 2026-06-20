@@ -23,7 +23,7 @@ public class DataSeeder implements CommandLineRunner {
         if (mascotaRepository.count() == 0) {
             
             // Configuramos Faker en español
-            Faker faker = new Faker(new Locale("es"));
+            Faker faker = new Faker(Locale.of("es"));
 
             System.out.println("🌱 Iniciando la siembra de datos falsos con Datafaker...");
 

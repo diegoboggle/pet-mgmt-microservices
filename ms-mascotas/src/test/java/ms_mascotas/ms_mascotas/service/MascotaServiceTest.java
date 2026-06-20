@@ -32,6 +32,7 @@ class MascotaServiceTest {
 
     @Test
     @DisplayName("Debe registrar una mascota exitosamente")
+    @SuppressWarnings("null")
     void registrarMascotaExito() {
         MascotaDTO mascotaInput = new MascotaDTO();
         mascotaInput.setNombre("Copito");

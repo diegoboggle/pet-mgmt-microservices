@@ -1,0 +1,121 @@
+version: '3.8'
+
+services:
+  # 1. BASE DE DATOS POSTGRESQL GLOBAL
+  postgres-db:
+    image: postgres:15-alpine
+    container_name: pet_postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: admin12
+      POSTGRES_DB: db_mascotas
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d db_mascotas"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - pet-network
+
+  # 2. SERVIDOR EUREKA
+  eureka-server:
+    build: 
+      context: ./ms-eureka
+    container_name: eureka_server
+    ports:
+      - "8761:8761"
+    networks:
+      - pet-network
+
+  # 3. API GATEWAY
+  apigateway:
+    build: 
+      context: ./apigateway
+    container_name: api_gateway
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
+      - EUREKA_URL=http://eureka-server:8761/eureka/
+    depends_on:
+      - eureka-server
+    networks:
+      - pet-network
+
+  # 4. MICROSERVICIO: MASCOTAS
+  ms-mascotas:
+    build: 
+      context: ./ms-mascotas
+    container_name: ms_mascotas
+    ports:
+      - "8083:8083"
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
+      - SERVER_PORT=8083
+      - DB_URL=jdbc:postgresql://postgres-db:5432/db_mascotas
+      - DB_USER=postgres
+      - DB_PASSWORD=admin12
+      - EUREKA_URL=http://eureka-server:8761/eureka/
+    depends_on:
+      postgres-db:
+        condition: service_healthy
+      eureka-server:
+        condition: service_started
+    networks:
+      - pet-network
+
+  # 5. MICROSERVICIO: USUARIOS
+  ms-usuario:
+    build: 
+      context: ./ms-usuario
+    container_name: ms_usuario
+    ports:
+      - "8082:8082"
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
+      - SERVER_PORT=8082
+      - DB_URL=jdbc:postgresql://postgres-db:5432/db_mascotas
+      - DB_USER=postgres
+      - DB_PASSWORD=admin12
+      - EUREKA_URL=http://eureka-server:8761/eureka/
+    depends_on:
+      postgres-db:
+        condition: service_healthy
+      eureka-server:
+        condition: service_started
+    networks:
+      - pet-network
+
+  # 6. MICROSERVICIO: AUTENTICACIÓN (NUEVO)
+  ms-auth:
+    build: 
+      context: ./ms-auth
+    container_name: ms_auth
+    ports:
+      - "8081:8081"
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
+      - SERVER_PORT=8081
+      - DB_URL=jdbc:postgresql://postgres-db:5432/db_mascotas
+      - DB_USER=postgres
+      - DB_PASSWORD=admin12
+      - EUREKA_URL=http://eureka-server:8761/eureka/
+    depends_on:
+      postgres-db:
+        condition: service_healthy
+      eureka-server:
+        condition: service_started
+    networks:
+      - pet-network
+
+volumes:
+  postgres_data:
+    driver: local
+
+networks:
+  pet-network:
+    driver: bridge

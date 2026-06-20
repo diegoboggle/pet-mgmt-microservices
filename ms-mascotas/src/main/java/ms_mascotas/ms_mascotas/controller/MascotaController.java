@@ -2,6 +2,7 @@ package ms_mascotas.ms_mascotas.controller;
 
 import jakarta.validation.Valid;
 import java.util.List;
+import java.util.Objects;
 
 import ms_mascotas.ms_mascotas.dto.MascotaDTO;
 import ms_mascotas.ms_mascotas.model.Mascota;
@@ -41,17 +42,17 @@ public class MascotaController {
 
     @GetMapping("/buscar/{id}")
     @Operation(summary = "Obtener una mascota por ID con enlaces HATEOAS")
+    @SuppressWarnings("null")
     public ResponseEntity<EntityModel<Mascota>> buscarPorId(@PathVariable Long id) {
-        Mascota mascota = mascotaService.buscarPorId(id);
+        Mascota mascota = Objects.requireNonNull(mascotaService.buscarPorId(id));
         EntityModel<Mascota> recurso = EntityModel.of(mascota);
-        
-        // Letra 'O' mayúscula en methodOn, no un cero
+
         Link selfLink = linkTo(methodOn(MascotaController.class).buscarPorId(id)).withSelfRel();
         recurso.add(selfLink);
-        
+
         Link deleteLink = linkTo(methodOn(MascotaController.class).eliminarMascota(id)).withRel("eliminar");
-        recurso.add(deleteLink); // Aquí agregamos el deleteLink correctamente
-        
+        recurso.add(deleteLink);
+
         return ResponseEntity.ok(recurso);
     }
 

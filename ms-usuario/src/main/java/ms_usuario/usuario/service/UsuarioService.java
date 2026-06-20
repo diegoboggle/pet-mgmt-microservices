@@ -57,7 +57,7 @@ public class UsuarioService {
     }
 
 
-    public Map<String, Object> obtenerUsuarioConSusMascotas(Long usuarioId){
+    public Map<String, Object> obtenerUsuarioConSusMascotas(long usuarioId){
         Usuario usuario = usuarioRepository.findById(usuarioId)
                 .orElseThrow(()-> new RuntimeException("Usuario no encontrado"));
         List<Object> mascotas = mascotaClient.listarPorUsuarioId(usuarioId);
@@ -69,9 +69,9 @@ public class UsuarioService {
         return respuesta;
     }
 
-    public Usuario obtenerUsuarioPorId(long l) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'obtenerUsuarioPorId'");
+    public Usuario obtenerUsuarioPorId(long id) {
+        return usuarioRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuario no encontrado con ID: " + id));
     }
     
 }
