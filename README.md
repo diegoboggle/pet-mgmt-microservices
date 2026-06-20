@@ -1,119 +1,91 @@
-# pet-mgmt-microservices
+# Sistema Distribuido de Gestión de Mascotas y Clínicas Veterinarias
 
-Backend de gestion de mascotas construido con Java, Spring Boot y Maven. El
-repositorio contiene microservicios independientes; cada servicio se compila
-desde su propia carpeta con el Maven Wrapper incluido.
+Este proyecto consiste en una arquitectura robusta de microservicios desarrollada con **Java 21**, **Spring Boot 3.2.5** y **Spring Cloud 2023.0.1**. Implementa patrones de diseño como API Gateway, Config Server, Eureka Service Discovery y Circuit Breaker (Resilience4j) para asegurar tolerancia a fallos. Todo el proyecto aplica estrictamente el patrón **CSR (Controller - Service - Repository)** y principios de *Clean Code*.
 
-## Microservicios
+## 👨‍💻 Equipo de Desarrollo (Estudiantes)
+- [Tu Nombre y Apellido]
+- [Nombre de Compañero/a 1]
+- [Nombre de Compañero/a 2]
 
-| Servicio | Puerto | Base de datos | Descripcion |
-| --- | ---: | --- | --- |
-| `ms-eureka` | `8761` | No aplica | Registro de servicios Eureka |
-| `ms-auth` | `8081` | No aplica | Login y emision de JWT |
-| `ms-usuario` | `8082` | PostgreSQL | Usuarios |
-| `ms-mascotas` | `8083` | PostgreSQL | Mascotas |
-| `ms-veterinaria` | `8084` | PostgreSQL | Veterinarios |
-| `ms-citas` | `8085` | PostgreSQL | Citas |
-| `ms-historial` | `8086` | PostgreSQL | Historial medico |
-| `ms-vacunas` | `8087` | PostgreSQL | Vacunas |
-| `ms-notificaciones` | `8088` | PostgreSQL | Notificaciones |
-| `ms-recordatorios` | `8089` | PostgreSQL | Recordatorios |
-| `ms-reportes` | `8090` | PostgreSQL | Reportes |
+## 🏗️ Microservicios Implementados
 
-## Requisitos
+El ecosistema cuenta con un total de **14 microservicios** desacoplados, que garantizan la separación de responsabilidades:
 
-- JDK 21.
-- PostgreSQL para los servicios con persistencia.
-- Bash en Linux.
+| Servicio | Puerto Local | Descripción |
+| :--- | :--- | :--- |
+| `ms-config-server` | `8888` | Servidor centralizado de configuración nativa. |
+| `ms-eureka` | `8761` | Registry y Discovery Server de Netflix Eureka. |
+| `apigateway` | `8080` | Puerta de entrada única (Spring Cloud Gateway) con filtro global JWT. |
+| `ms-auth` | *Dinámico* | Servicio de Autenticación, generación de JWT y encriptación BCrypt. |
+| `ms-usuario` | *Dinámico* | Gestión de usuarios (dueños de mascotas). |
+| `ms-mascotas` | *Dinámico* | Gestión y registro de mascotas. |
+| `ms-veterinaria` | *Dinámico* | Gestión de veterinarios. |
+| `ms-citas` | *Dinámico* | Agenda y programación de citas médicas. |
+| `ms-historial` | *Dinámico* | Gestión de historias clínicas de las mascotas. |
+| `ms-vacunas` | *Dinámico* | Registro de vacunación. |
+| `ms-notificaciones` | *Dinámico* | Servicio de envío de notificaciones. |
+| `ms-recordatorios` | *Dinámico* | Generación de recordatorios de citas y vacunas. |
+| `ms-reportes` | *Dinámico* | Generación de reportes administrativos. |
+| `ms-facturacion` | *Dinámico* | (Si aplica) Generación de cobros. |
 
-No se requiere Docker ni herramientas de Node.
+*Nota: Todos los microservicios de dominio (Usuarios, Mascotas, etc.) se inician en puertos dinámicos (`server.port=0`) y se comunican a través del Gateway.*
 
-## Configuracion local
+## 🛣️ Rutas Principales del API Gateway
 
-Cada servicio define sus propiedades en `src/main/resources/application.properties`.
-Las credenciales por defecto son para desarrollo local y se pueden cambiar con
-variables de entorno.
+El API Gateway es la única entrada expuesta al exterior (Puerto 8080).
 
-Variables comunes:
+| Funcionalidad | Ruta en el Gateway |
+| :--- | :--- |
+| **Login y JWT** | `POST http://localhost:8080/api/v1/auth/login` |
+| **Usuarios** | `GET/POST http://localhost:8080/api/v1/usuarios` |
+| **Mascotas** | `GET/POST http://localhost:8080/api/v1/mascotas` |
 
-| Variable | Uso |
-| --- | --- |
-| `SERVER_PORT` | Puerto HTTP del servicio |
-| `DB_URL` | URL JDBC completa de PostgreSQL |
-| `DB_USER` | Usuario de base de datos |
-| `DB_PASSWORD` | Contrasena de base de datos |
-| `DDL_AUTO` | Valor de `spring.jpa.hibernate.ddl-auto` |
-| `JPA_SHOW_SQL` | Muestra SQL generado por Hibernate |
+## 📖 Documentación Swagger / OpenAPI
 
-Bases locales esperadas por defecto:
+La documentación interactiva de la API está integrada nativamente en los microservicios.
+Puedes acceder a ella localmente (asegúrate de que el microservicio esté corriendo en el puerto respectivo o a través del Gateway):
+- **Usuarios / Auth Swagger UI:** `http://localhost:<PUERTO_DEL_SERVICIO>/swagger-ui.html`
+- *Los controladores y DTOs están completamente documentados con descripciones, ejemplos de request/response y códigos HTTP.*
 
-| Servicio | Base de datos |
-| --- | --- |
-| `ms-usuario` | `db_usuarios` |
-| `ms-mascotas` | `db_mascotas` |
-| `ms-veterinaria` | `db_veterinaria` |
-| `ms-citas` | `db_citas` |
-| `ms-historial` | `db_historial` |
-| `ms-vacunas` | `db_vacunas` |
-| `ms-notificaciones` | `db_notificaciones` |
-| `ms-recordatorios` | `db_recordatorios` |
-| `ms-reportes` | `db_reportes` |
+## 🚀 Instrucciones de Ejecución
 
-Variables especificas de `ms-auth`:
+### Entorno Local (Desarrollo)
 
-| Variable | Uso |
-| --- | --- |
-| `JWT_SECRET` | Clave para firmar tokens JWT |
-| `JWT_EXPIRATION_MS` | Duracion del token en milisegundos |
-| `USUARIOS_SERVICE_URL` | URL base de `ms-usuario` |
+Para levantar el ecosistema localmente, asegúrate de tener **JDK 21** y **PostgreSQL** (con la base de datos `db_usuarios`, `db_mascotas`, etc. creadas según corresponda).
 
-## Ejecucion
+1. **Levantar el Config Server:**
+   ```bash
+   cd ms-config-server
+   ./mvnw spring-boot:run
+   ```
+2. **Levantar Eureka Server:**
+   ```bash
+   cd ../ms-eureka
+   ./mvnw spring-boot:run
+   ```
+3. **Levantar los Microservicios de Dominio:** (Ej. `ms-usuario`, `ms-auth`, `ms-mascotas`)
+   ```bash
+   cd ../ms-usuario
+   ./mvnw spring-boot:run
+   ```
+4. **Levantar el API Gateway:** (Debe ser el último)
+   ```bash
+   cd ../apigateway
+   ./mvnw spring-boot:run
+   ```
 
-Desde la raiz del repositorio, entra al servicio que quieras ejecutar:
+### Despliegue Remoto (Railway / Render / Docker)
 
+Para desplegar este ecosistema en la nube (ej. Railway):
+1. Levantar un servicio de base de datos PostgreSQL en la plataforma de nube y obtener la URL JDBC (`postgresql://user:pass@host:port/dbname`).
+2. Configurar la variable de entorno `SPRING_CONFIG_IMPORT=optional:configserver:<URL_DEL_CONFIG_SERVER_PUBLICO>` en cada microservicio desplegado.
+3. Desplegar los servicios conectando cada repositorio a Railway/Render, utilizando el `Dockerfile` proporcionado en la raíz de cada microservicio o utilizando el `Buildpack` de Maven con Java 21.
+
+## 🧪 Pruebas Unitarias
+
+El proyecto cuenta con una cobertura robusta probando las reglas de negocio, con manejo de excepciones y validaciones. Los tests están implementados con **JUnit 5** y **Mockito**.
+Para ejecutar los tests de un microservicio:
 ```bash
-cd ms-eureka
-./mvnw spring-boot:run
-```
-
-Para ejecutar otro servicio, vuelve a la raiz y repite el mismo patron:
-
-```bash
-cd ../ms-usuario
-./mvnw spring-boot:run
-```
-
-## Pruebas
-
-Cada modulo se prueba por separado:
-
-```bash
-cd ms-recordatorios
+cd ms-usuario
 ./mvnw test
 ```
-
-Los tests usan H2 cuando el servicio requiere base de datos y deshabilitan
-Eureka, por lo que no dependen de PostgreSQL ni del registry local.
-
-## Endpoints principales
-
-Los endpoints existentes siguen esta organizacion general:
-
-| Servicio | Ruta base |
-| --- | --- |
-| `ms-auth` | `/api/v1/auth` |
-| `ms-usuario` | `/api/v1/usuarios` |
-| `ms-mascotas` | `/api/v1/mascotas` |
-| `ms-veterinaria` | `/api/v1/veterinarios` |
-| `ms-citas` | `/api/v1/citas` |
-| `ms-historial` | `/api/v1/historial` |
-| `ms-vacunas` | `/api/v1/vacunas` |
-| `ms-notificaciones` | `/api/notificaciones` |
-| `ms-recordatorios` | `/api/recordatorios` |
-| `ms-reportes` | `/api/reportes` |
-
-## Notas de desarrollo
-
-- No subir carpetas `target/`, dependencias cacheadas ni configuracion local del IDE.
-- Mantener cada microservicio con su propio `pom.xml` y wrapper Maven.
-- Evitar dependencias que no se usen en el codigo del servicio.
